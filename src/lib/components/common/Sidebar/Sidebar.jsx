@@ -21,7 +21,7 @@ const toggleNode = (tag) => e => {
 }
 
 function TreeIcon(props) {
-  const { opened, hasChildren } = props;
+  const { opened, hasChildren, node } = props;
 
   if (!hasChildren) {
     return null;
@@ -43,7 +43,7 @@ function ChildNode(props) {
     return (<ul className={"level" + level}>
       {nodes.map(node => {
         return <li key={node.tag}>
-          <TreeIcon hasChildren={node.nodes.length > 0} opened={node.opened}></TreeIcon> <span onClick={loadApi(node.tag)}>  {node.key} ({node.nodes.length}) </span>
+          <TreeIcon hasChildren={node.nodes.length > 0} opened={node.opened} node={node}></TreeIcon> <span onClick={loadApi(node.tag)}>  {node.key} ({node.nodes.length}) </span>
           {node.opened ? <ChildNode nodes={node.nodes} level={level + 1}></ChildNode> : null}
         </li>
       })}
@@ -65,7 +65,7 @@ function Sidebar(props) {
       <ul className={"level1"}>
         {sidebar.tags.map(tag => {
           return <li key={tag.tag}>
-            {tag.opened ? <FontAwesome onClick={toggleNode(tag)} name="minus" /> : <FontAwesome name="plus" onClick={toggleNode(tag)} />}
+            <TreeIcon hasChildren={tag.nodes.length > 0} opened={tag.opened} node={tag}></TreeIcon>
             <span onClick={loadApi(tag.tag)}> {tag.key} ({tag.nodes.length}) </span>
             {tag.opened ? <ChildNode nodes={tag.nodes} level={level + 1}></ChildNode> : null}
           </li>
