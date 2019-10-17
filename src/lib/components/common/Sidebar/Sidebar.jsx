@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import OpenAPISelectors from 'selectors/OpenAPISelectors';
 import store from 'store';
 import OpenAPIActions from 'actions/OpenAPIActions';
+import FontAwesome from 'lib/components/common/FontAwesome';
 
 const loadApi = (tag) => e => {
   e.preventDefault();
@@ -12,17 +13,38 @@ const loadApi = (tag) => e => {
   return store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1', tag))
 }
 
+const toggleNode = (tag) => e => {
+  console.log("toggling node", tag.key);
+  e.preventDefault();
+  e.stopPropagation();
+  return store.dispatch(OpenAPIActions.toggleSidebarNav(tag.key));
+}
+
+function TreeIcon(props) {
+  const { opened, hasChildren } = props;
+
+  if (!hasChildren) {
+    return null;
+  }
+  if (opened) {
+    return <FontAwesome onClick={toggleNode(node)} name="minus" />;
+  }
+  else {
+    return <FontAwesome onClick={toggleNode(node)} name="plus" />
+  }
+}
 
 function ChildNode(props) {
   const { nodes, level } = props;
-  if (nodes.size == 0) {
+  if (nodes.length == 0) {
     return null;
   }
   else {
-    return (<ul>
+    return (<ul className={"level" + level}>
       {nodes.map(node => {
-        return <li onClick={loadApi(node.get('tag'))} key={node.get('tag')}>{node.get('key')} ({node.get('nodes').size})
-        <ChildNode nodes={node.get('nodes')} level={level + 1}></ChildNode>
+        return <li key={node.tag}>
+          <TreeIcon hasChildren={node.nodes.length > 0} opened={node.opened}></TreeIcon> <span onClick={loadApi(node.tag)}>  {node.key} ({node.nodes.length}) </span>
+          {node.opened ? <ChildNode nodes={node.nodes} level={level + 1}></ChildNode> : null}
         </li>
       })}
     </ul>);
@@ -40,10 +62,12 @@ function Sidebar(props) {
   return (
     <div className={className}>
       <h1>API Navigation</h1>
-      <ul>
-        {sidebar.get('tags').map(tag => {
-          return <li onClick={loadApi(tag.get('tag'))} key={tag.get('tag')}>{tag.get('key')} ({tag.get('nodes').size})
-            <ChildNode nodes={tag.get('nodes')} level={level + 1}></ChildNode>
+      <ul className={"level1"}>
+        {sidebar.tags.map(tag => {
+          return <li key={tag.tag}>
+            {tag.opened ? <FontAwesome onClick={toggleNode(tag)} name="minus" /> : <FontAwesome name="plus" onClick={toggleNode(tag)} />}
+            <span onClick={loadApi(tag.tag)}> {tag.key} ({tag.nodes.length}) </span>
+            {tag.opened ? <ChildNode nodes={tag.nodes} level={level + 1}></ChildNode> : null}
           </li>
         })}
       </ul>
@@ -52,13 +76,13 @@ function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  sidebar: PropTypes.object,
+  sidebar: PropTypes.object
 };
 
 
 const mapStateToProps = (state) => {
   return {
-    sidebar: OpenAPISelectors.getSidebar(state),
+    sidebar: OpenAPISelectors.getSidebar(state).toJS(),
   };
 };
 
