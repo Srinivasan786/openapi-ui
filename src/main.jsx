@@ -1,6 +1,5 @@
 import './favicon.ico';
 import './main.css';
-import 'data/openapi.yml';
 
 import store from 'store';
 import React from 'react';
@@ -17,5 +16,6 @@ const app = (
 
 ReactDOM.render(app, document.getElementsByClassName('main')[0]);
 
-// Load spec
-store.dispatch(OpenAPIActions.load('/openapi.yml'));
+// Load spec & tags
+store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1'));
+store.dispatch(OpenAPIActions.loadTags('http://localhost:4000/tags/logistics1'));

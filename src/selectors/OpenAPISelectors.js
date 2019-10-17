@@ -21,16 +21,18 @@ export const getSecurity = createSelector(getSpec, spec => spec.get('security'))
 
 export const getTags = createSelector(getSpec, spec => spec.get('tags'));
 
+export const getSidebar = (state) => state.getIn(['openapi', 'sidebar']);
 
 export const getExternalDocs = createSelector(getSpec, spec => spec.get('externalDocs'));
 
 
 export default {
-  isLoading,
-  getInfo,
-  getServers,
-  getPaths,
-  getSecurity,
-  getTags,
-  getExternalDocs
+    isLoading,
+    getInfo,
+    getServers,
+    getPaths,
+    getSecurity,
+    getTags,
+    getExternalDocs,
+    getSidebar
 };

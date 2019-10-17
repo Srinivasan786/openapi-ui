@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import OpenAPI from 'lib/components/openapi/OpenAPI';
+import Sidebar from 'lib/components/common/Sidebar';
 import OpenAPISelectors from 'selectors/OpenAPISelectors';
 import s from './App.css';
 
@@ -11,7 +12,9 @@ function App(props) {
 
   return (
     <div className={s.app}>
-      <div className={s.sidebar}></div>
+      <div className={s.sidebar}>
+        <Sidebar />
+      </div>
       <div className={s.body}>
         <OpenAPI
           info={props.info}

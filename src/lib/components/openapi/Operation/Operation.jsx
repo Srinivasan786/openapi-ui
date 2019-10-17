@@ -33,7 +33,7 @@ function Operation(props) {
           className={s.heading}
           level="h4"
         >
-          <span className={s.inner}>{ props.method }</span>
+          <span className={s.inner}>{props.method}</span>
         </Heading>
         <span className={s.summary}>{props.summary}</span>
       </header>

@@ -9,25 +9,26 @@ const history = createHistory();
 
 
 let load = createAction('LOAD_SPEC', url => {
-  let hash = window.location.hash;
-  history.replace({ hash: '' });
-  return refParser.dereference(url).then(result => {
-    // We give each operation a uniqueId if not defined.
-    _.forEach(result.paths, (pathItem) => {
-      operationMethods.forEach(method => {
-        let operation = _.get(pathItem, method);
-        if (operation && _.isUndefined(operation.operationId)) {
-          operation.operationId = _.uniqueId('operation-');
-        }
-      });
+    return refParser.dereference(url).then(result => {
+        // We give each operation a uniqueId if not defined.
+        _.forEach(result.paths, (pathItem) => {
+            operationMethods.forEach(method => {
+                let operation = _.get(pathItem, method);
+                if (operation && _.isUndefined(operation.operationId)) {
+                    operation.operationId = _.uniqueId('operation-');
+                }
+            });
+        });
+        return result;
     });
-    // Replace the hash removed above to trigger the browser to jump to the hash.
-    _.delay(() => window.location.hash = hash, 200);
-    return result;
-  });
+});
+
+let loadTags = createAction('LOAD_TAGS', url => {
+    return refParser.dereference(url).then(result => result);
 });
 
 
 export default {
-  load
+    load,
+    loadTags
 };
