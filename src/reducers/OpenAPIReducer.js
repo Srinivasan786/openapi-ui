@@ -30,19 +30,19 @@ export default handleActions({
     },
 
     'LOAD_SPEC_COMPLETED': (state, action) => {
-        return initialState.mergeIn(['spec'], Immutable.fromJS(action.payload));
+        return state.mergeIn(['spec'], Immutable.fromJS(action.payload));
     },
 
     'LOAD_SPEC_FAILED': (state, action) => {
-        return initialState.set('errors', action.payload);
+        return state.set('errors', action.payload);
     },
 
     'LOAD_TAGS': (state) => {},
     'LOAD_TAGS_COMPLETED': (state, action) => {
-        return initialState.mergeIn(['sidebar', 'tags'], Immutable.fromJS(action.payload));
+        return state.mergeIn(['sidebar', 'tags'], Immutable.fromJS(action.payload));
     },
     'LOAD_TAGS_FAILED': (state, action) => {
-        return initialState.set('errors', action.payload);
+        return state.set('errors', action.payload);
     }
 
 }, initialState);
