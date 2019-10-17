@@ -21,4 +21,14 @@
         left: 45px;
     }
 
+    .node {
+        padding: 3px;
+        margin-top: 2px;
+    }
+
+    .label {
+        font-size: 10pt;
+        border-radius: 5px;
+        border: 1px solid #eee;
+    }
 }
