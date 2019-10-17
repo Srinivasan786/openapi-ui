@@ -10,17 +10,25 @@ $app-body-box-sizing: border-box !default;
         width: $app-sidebar-width;
         height: 100%;
         background: $app-sidebar-background;
-        padding: 0.25em;
+        padding: 0.5em;
         overflow-y: auto;
 
         h1 {
             font-size: 16pt;
             color: white !important;
+            margin-bottom: 1em;
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
         }
 
         li {
             color: white !important;
             cursor: pointer;
+            list-style: none;
+            padding: 0.1em;
         }
     }
 

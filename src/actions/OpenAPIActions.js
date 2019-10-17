@@ -23,8 +23,10 @@ let loadTags = createAction('LOAD_TAGS', url => {
     return refParser.dereference(url).then(result => result);
 });
 
+let toggleSidebarNav = createAction('TOGGLE_SIDEBAR_NAV', tag => Promise.resolve(tag))
 
 export default {
     load,
-    loadTags
+    loadTags,
+    toggleSidebarNav
 };
