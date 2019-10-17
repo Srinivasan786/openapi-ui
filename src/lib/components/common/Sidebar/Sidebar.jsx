@@ -40,7 +40,7 @@ function ChildNode(props) {
     return null;
   }
   else {
-    return (<ul className={"level" + level}>
+    return (<ul className={s["level" + level]}>
       {nodes.map(node => {
         return <li key={node.tag}>
           <TreeIcon hasChildren={node.nodes.length > 0} opened={node.opened} node={node}></TreeIcon> <span onClick={loadApi(node.tag)}>  {node.key} ({node.nodes.length}) </span>

@@ -1,4 +1,24 @@
 .sidebar {
     padding: 0.25px;
     color: 'white'
+
+    .level1 {
+        margin: 0;
+    }
+
+    .level2 {
+        position: relative;
+        left: 15px;
+    }
+
+    .level3 {
+        position: relative;
+        left: 30px;
+    }
+
+    .level4 {
+        position: relative;
+        left: 45px;
+    }
+
 }

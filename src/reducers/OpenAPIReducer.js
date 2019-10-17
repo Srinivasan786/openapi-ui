@@ -47,12 +47,16 @@ export default handleActions({
     'TOGGLE_SIDEBAR_NAV_COMPLETED': (state, action) => {
         console.log("Changing toggle state of tag", action.payload);
         let tags = state.getIn(['sidebar', 'tags']).toJS();
-        tags = tags.map(t => {
+
+        function checkToggle(t) {
             if (t.key === action.payload) {
                 t.opened = !t.opened;
+            } else if (t.nodes.length > 0) {
+                t.nodes.map(checkToggle);
             }
             return t;
-        });
+        }
+        tags = tags.map(checkToggle);
         return state.setIn(['sidebar', 'tags'], Immutable.fromJS(tags));
     }
 

@@ -23,16 +23,6 @@ $app-body-box-sizing: border-box !default;
             padding: 0;
         }
 
-        ul.level1 {
-            margin: 0;
-        }
-
-        ul.level2 {
-            position: relative;
-            left: 50px;
-            color: blue !important;
-        }
-
         li {
             color: white !important;
             cursor: pointer;
