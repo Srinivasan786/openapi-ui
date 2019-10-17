@@ -17,5 +17,5 @@ const app = (
 ReactDOM.render(app, document.getElementsByClassName('main')[0]);
 
 // Load spec & tags
-store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1'));
+//store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1'));
 store.dispatch(OpenAPIActions.loadTags('http://localhost:4000/tags/logistics1'));

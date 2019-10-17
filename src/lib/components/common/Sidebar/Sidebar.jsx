@@ -3,6 +3,15 @@ import classnames from 'classnames';
 import s from './Sidebar.css';
 import { connect } from 'react-redux';
 import OpenAPISelectors from 'selectors/OpenAPISelectors';
+import store from 'store';
+import OpenAPIActions from 'actions/OpenAPIActions';
+
+const loadApi = (tag) => e => {
+  e.preventDefault();
+  e.stopPropagation();
+  return store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1', tag))
+}
+
 
 function ChildNode(props) {
   const { nodes, level } = props;
@@ -12,7 +21,7 @@ function ChildNode(props) {
   else {
     return (<ul>
       {nodes.map(node => {
-        return <li key={node.get('tag')}>{node.get('key')} ({node.get('nodes').size})
+        return <li onClick={loadApi(node.get('tag'))} key={node.get('tag')}>{node.get('key')} ({node.get('nodes').size})
         <ChildNode nodes={node.get('nodes')} level={level + 1}></ChildNode>
         </li>
       })}
@@ -33,7 +42,7 @@ function Sidebar(props) {
       <h1>API Navigation</h1>
       <ul>
         {sidebar.get('tags').map(tag => {
-          return <li key={tag.get('tag')}>{tag.get('key')} ({tag.get('nodes').size})
+          return <li onClick={loadApi(tag.get('tag'))} key={tag.get('tag')}>{tag.get('key')} ({tag.get('nodes').size})
             <ChildNode nodes={tag.get('nodes')} level={level + 1}></ChildNode>
           </li>
         })}

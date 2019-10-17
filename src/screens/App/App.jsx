@@ -7,8 +7,7 @@ import s from './App.css';
 
 
 function App(props) {
-
-  if (props.isLoading) return null;
+  const { paths } = props;
 
   return (
     <div className={s.app}>
@@ -16,13 +15,13 @@ function App(props) {
         <Sidebar />
       </div>
       <div className={s.body}>
-        <OpenAPI
+        {Object.keys(paths).length === 0 ? <h2> Click on sidebar to load section documentation </h2> : <OpenAPI
           info={props.info}
           servers={props.servers}
           paths={props.paths}
           security={props.security}
           externalDocs={props.externalDocs}
-        />
+        />}
       </div>
     </div>
   );

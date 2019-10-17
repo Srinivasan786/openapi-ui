@@ -20,6 +20,7 @@ $app-body-box-sizing: border-box !default;
 
         li {
             color: white !important;
+            cursor: pointer;
         }
     }
 
