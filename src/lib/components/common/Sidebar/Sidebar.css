@@ -8,27 +8,34 @@
 
     .level2 {
         position: relative;
-        left: 15px;
+        left: 20px;
+        margin-top: 10px;
     }
 
     .level3 {
         position: relative;
-        left: 30px;
+        left: 20px;
+        margin-top: 10px;
     }
 
     .level4 {
         position: relative;
-        left: 45px;
+        left: 20px;
+        margin-top: 10px;
     }
 
     .node {
-        padding: 3px;
-        margin-top: 2px;
+        padding: 2px;
+        margin-top: 10px;
     }
 
     .label {
         font-size: 10pt;
         border-radius: 5px;
-        border: 1px solid #eee;
+        background-color: #eee;
+        color: black;
+        margin-left: 4px;
+        padding: 3px;
+        border: 1px solid white;
     }
 }
