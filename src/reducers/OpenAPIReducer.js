@@ -45,7 +45,6 @@ export default handleActions({
         return state.set('errors', action.payload);
     },
     'TOGGLE_SIDEBAR_NAV_COMPLETED': (state, action) => {
-        console.log("Changing toggle state of tag", action.payload);
         let tags = state.getIn(['sidebar', 'tags']).toJS();
 
         function checkToggle(t) {

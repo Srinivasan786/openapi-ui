@@ -6,6 +6,7 @@ import { operationMethods } from 'constants';
 let load = createAction('LOAD_SPEC', (url, tag) => {
     console.log("Loading API section ", tag);
     return refParser.dereference(url + `/${tag}`).then(result => {
+
         // We give each operation a uniqueId if not defined.
         _.forEach(result.paths, (pathItem) => {
             operationMethods.forEach(method => {
@@ -20,7 +21,7 @@ let load = createAction('LOAD_SPEC', (url, tag) => {
 });
 
 let loadTags = createAction('LOAD_TAGS', url => {
-    return refParser.dereference(url).then(result => result);
+    return refParser.dereference(url);
 });
 
 let toggleSidebarNav = createAction('TOGGLE_SIDEBAR_NAV', tag => Promise.resolve(tag))
