@@ -37,6 +37,7 @@
     .nodeActive>.label {
         background-color: cyan;
         border: 2px solid darkcyan;
+        font-weight: bold;
     }
 
     .label {
