@@ -18,6 +18,7 @@ const initialState = Immutable.fromJS({
     },
     errors: [],
     sidebar: {
+        active: null,
         tags: []
     }
 });
@@ -30,7 +31,9 @@ export default handleActions({
     },
 
     'LOAD_SPEC_COMPLETED': (state, action) => {
-        return state.mergeIn(['spec'], Immutable.fromJS(action.payload));
+        return state
+            .setIn(['sidebar', 'active'], action.payload.tag)
+            .mergeIn(['spec'], Immutable.fromJS(action.payload.spec));
     },
 
     'LOAD_SPEC_FAILED': (state, action) => {

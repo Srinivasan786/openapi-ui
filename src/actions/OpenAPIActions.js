@@ -16,14 +16,11 @@ let load = createAction('LOAD_SPEC', (url, tag) => {
                 }
             });
         });
-        return result;
+        return { spec: result, tag };
     });
 });
 
-let loadTags = createAction('LOAD_TAGS', url => {
-    return refParser.dereference(url);
-});
-
+let loadTags = createAction('LOAD_TAGS', url => refParser.dereference(url));
 let toggleSidebarNav = createAction('TOGGLE_SIDEBAR_NAV', tag => Promise.resolve(tag))
 
 export default {
