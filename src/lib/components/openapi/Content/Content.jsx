@@ -3,7 +3,19 @@ import _ from 'lodash';
 import classnames from 'classnames';
 import MediaType from 'lib/components/openapi/MediaType';
 import s from './Content.css';
+import Heading from 'lib/components/common/Heading';
 
+function Schema({ schema }) {
+  if (!schema) return null;
+
+  return <div>
+    <Heading level='h6'>Schema</Heading>
+    <Heading level='h6'>Properties</Heading>
+    <div>Properties goes here</div>
+    <Heading level='h6'>Required Fields</Heading>
+    <div>Required fields goes here</div>
+  </div>
+}
 
 function Content(props) {
   if (!props.content) return null;
@@ -13,11 +25,13 @@ function Content(props) {
       {
         _.map(props.content, (value, key) => {
           return (
-            <MediaType
-              {...value}
-              key={key}
-              mediaType={key}
-            />
+            <div key={key}>
+              <MediaType
+                {...value}
+                mediaType={key}
+              />
+              <Schema schema={value.schema}></Schema>
+            </div>
           );
         })
       }

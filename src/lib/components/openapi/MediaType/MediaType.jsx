@@ -6,9 +6,12 @@ import s from './MediaType.css';
 
 function MediaType(props) {
   const className = classnames(s.mediaType, props.className);
+
+  console.log(props.schema);
+
   return (
     <div className={className}>
-      <Heading level="h6">{ props.mediaType }</Heading>
+      <Heading level="h6">{props.mediaType}</Heading>
     </div>
   );
 }

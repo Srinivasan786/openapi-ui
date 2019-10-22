@@ -6,10 +6,11 @@ import s from './RequestBody.css';
 
 
 function RequestBody(props) {
+  console.log("request body props", props);
   const className = classnames(s.requestBody, props.className);
   return (
     <div className={className}>
-      <CommonMark>{ props.description }</CommonMark>
+      <CommonMark>{props.description}</CommonMark>
       <Content content={props.content} />
     </div>
   );

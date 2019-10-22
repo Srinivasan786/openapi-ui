@@ -23,6 +23,11 @@ function Operation(props) {
     [s.methodTrace]: props.method === 'trace'
   });
 
+  let requestBody = props.requestBody;
+  if (!Array.isArray(requestBody)) {
+    requestBody = [requestBody];
+  }
+
   return (
     <section
       id={props.operationId}
@@ -50,7 +55,7 @@ function Operation(props) {
         headingLevel="h5"
         securityRequirements={props.security}
       />
-      <RequestBodies requestBodies={props.requestBody} />
+      <RequestBodies requestBodies={requestBody} />
     </section>
   );
 }
@@ -62,7 +67,7 @@ Operation.propTypes = {
   externalDocs: PropTypes.object,
   operationId: PropTypes.string,
   parameters: PropTypes.array,
-  requestBody: PropTypes.array,
+  requestBody: PropTypes.object,
   responses: PropTypes.object.isRequired,
   callbacks: PropTypes.object,
   deprecated: PropTypes.bool,

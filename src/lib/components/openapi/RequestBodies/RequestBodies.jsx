@@ -15,7 +15,7 @@ function RequestBodies(props) {
         props.requestBodies.map(requestBody => {
           return (
             <RequestBody
-              key={requestBody}
+              key={Math.random().toString()}
               {...requestBody}
             />
           );
