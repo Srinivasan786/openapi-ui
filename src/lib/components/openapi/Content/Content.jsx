@@ -1,9 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import MediaType from 'lib/components/openapi/MediaType';
 import s from './Content.css';
 import Heading from 'lib/components/common/Heading';
+import PropTypes from 'prop-types'
 
 function Schema({ schema }) {
   if (!schema) return null;

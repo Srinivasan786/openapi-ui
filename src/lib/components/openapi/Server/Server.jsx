@@ -1,9 +1,10 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import CommonMark from 'lib/components/common/CommonMark';
 import Heading from 'lib/components/common/Heading';
 import ServerVariables from 'lib/components/openapi/ServerVariables';
 import s from './Server.css';
+import PropTypes from 'prop-types'
 
 
 function Server(props) {

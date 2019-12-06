@@ -1,12 +1,12 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import CommonMark from 'lib/components/common/CommonMark';
 import Content from 'lib/components/openapi/Content';
 import s from './RequestBody.css';
+import PropTypes from 'prop-types'
 
 
 function RequestBody(props) {
-  console.log("request body props", props);
   const className = classnames(s.requestBody, props.className);
   return (
     <div className={className}>

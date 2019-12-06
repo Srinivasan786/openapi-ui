@@ -33,11 +33,13 @@ export default handleActions({
     'LOAD_SPEC_COMPLETED': (state, action) => {
         return state
             .setIn(['sidebar', 'active'], action.payload.tag)
+            .set('isLoading', false)
             .mergeIn(['spec'], Immutable.fromJS(action.payload.spec));
     },
 
     'LOAD_SPEC_FAILED': (state, action) => {
-        return state.set('errors', action.payload);
+        return state.set('errors', action.payload)
+        .set('isLoading', false);
     },
 
     'LOAD_TAGS': (state) => {},

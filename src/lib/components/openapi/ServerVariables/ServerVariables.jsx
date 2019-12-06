@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import _ from 'lodash';
 import List from 'lib/components/common/List';
 import Heading from 'lib/components/common/Heading';
 import ServerVariable from 'lib/components/openapi/ServerVariable';
 import s from './ServerVariables.css';
+import PropTypes from 'prop-types'
 
 
 function ServerVariables(props) {

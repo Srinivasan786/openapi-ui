@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import Info from 'lib/components/openapi/Info';
@@ -7,6 +7,7 @@ import Security from 'lib/components/openapi/Security';
 import ExternalDocumentation from 'lib/components/openapi/ExternalDocumentation';
 import Servers from 'lib/components/openapi/Servers';
 import s from './OpenAPI.css';
+import PropTypes from 'prop-types'
 
 
 function OpenAPI(props) {

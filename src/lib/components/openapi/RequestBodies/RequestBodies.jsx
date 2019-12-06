@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import Heading from 'lib/components/common/Heading';
 import RequestBody from 'lib/components/openapi/RequestBody';
 import s from './RequestBodies.css';
+import PropTypes from 'prop-types'
 
 
 function RequestBodies(props) {

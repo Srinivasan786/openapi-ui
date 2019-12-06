@@ -1,10 +1,11 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import CommonMark from 'lib/components/common/CommonMark';
 import Heading from 'lib/components/common/Heading';
 import Contact from 'lib/components/openapi/Contact';
 import License from 'lib/components/openapi/License';
 import s from './Info.css';
+import PropTypes from 'prop-types'
 
 
 function Info(props) {

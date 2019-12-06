@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classnames from 'classnames';
 import ToolTipBubble from './components/ToolTipBubble';
 import s from './ToolTip.css';
+import PropTypes from 'prop-types'
 
 
 class ToolTip extends Component {

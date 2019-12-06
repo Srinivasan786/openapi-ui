@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import s from './Heading.css';
+import PropTypes from 'prop-types'
 
 
 function Heading(props) {

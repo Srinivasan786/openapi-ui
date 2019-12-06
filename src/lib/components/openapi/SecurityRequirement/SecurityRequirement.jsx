@@ -1,7 +1,8 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import List from 'lib/components/common/List';
 import s from './SecurityRequirement.css';
+import PropTypes from 'prop-types'
 
 
 function SecurityRequirement(props) {

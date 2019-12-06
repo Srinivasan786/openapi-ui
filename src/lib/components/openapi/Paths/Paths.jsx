@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import Heading from 'lib/components/common/Heading';
 import PathItem from 'lib/components/openapi/PathItem';
 import s from './Paths.css';
+import PropTypes from 'prop-types'
 
 
 function Paths(props) {
@@ -16,13 +17,16 @@ function Paths(props) {
         Paths
       </Heading>
       {
-        Object.keys(props.paths).map(path => {
+        Object.keys(props.paths).map((path, index) => {
           return (
-            <PathItem
-              key={path}
-              {...props.paths[path]}
-              path={path}
-            />
+              <div key={path}>
+                <PathItem
+                  key={path}
+                  index={index}
+                  {...props.paths[path]}
+                  path={path}
+                />
+              </div>
           );
         })
       }

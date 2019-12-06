@@ -4,7 +4,6 @@ import refParser from 'json-schema-ref-parser';
 import { operationMethods } from 'constants';
 
 let load = createAction('LOAD_SPEC', (url, tag) => {
-    console.log("Loading API section ", tag);
     return refParser.dereference(url + `/${tag}`).then(result => {
 
         // We give each operation a uniqueId if not defined.

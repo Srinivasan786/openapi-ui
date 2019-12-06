@@ -1,4 +1,4 @@
-$app-sidebar-width: 300px !default;
+$app-sidebar-width: 465px !default;
 $app-sidebar-background: #333 !default;
 $app-body-padding: 20px 15px 100px !default;
 $app-body-box-sizing: border-box !default;
@@ -7,11 +7,13 @@ $app-body-box-sizing: border-box !default;
 
     .sidebar {
         position: fixed;
-        width: $app-sidebar-width;
+        width: 25%;
         height: 100%;
-        background: $app-sidebar-background;
+        /* background: $app-sidebar-background; */
         padding: 0.5em;
         overflow-y: auto;
+        justify-content: center;
+        display: flex;
 
         h1 {
             font-size: 16pt;
@@ -31,10 +33,71 @@ $app-body-box-sizing: border-box !default;
         }
     }
 
+    .SidebarIcons {
+        position: fixed;
+        height: 100%;
+        /* background: $app-sidebar-background; */
+        display: flex;
+        border-right: 2px solid #eceae5;
+        width: 49px;
+        justify-content: center;
+        display: flex;
+        z-index: 99999;
+
+        h1 {
+            font-size: 16pt;
+            color: white !important;
+            margin-bottom: 1em;
+        }
+
+        ul {
+            padding: 0;
+        }
+
+        li {
+            color: white !important;
+            cursor: pointer;
+            list-style: none;
+            padding: 0.1em;
+        }
+    }
+    .loader {
+        text-align: center;
+    }
+
     .body {
         width: calc(100% - $app-sidebar-width);
-        transform: translateX($app-sidebar-width);
+        transform: translateX(428px);
         padding: $app-body-padding;
         box-sizing: $app-body-box-sizing;
     }
+
+    .bodyActive {
+        width: calc(100vw - 170px);
+        transform: translateX(100px);
+        padding: $app-body-padding;
+        box-sizing: $app-body-box-sizing;
+    }
+
+    .gZdDsM {
+        display: none !important;
+      }
+
 }
+
+.scroll {
+    opacity: 0.3;
+    background-color: aqua;
+    width: 85px;
+    height: 40px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 5px;
+    border: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+

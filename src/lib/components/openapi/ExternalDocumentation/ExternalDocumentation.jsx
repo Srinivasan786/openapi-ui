@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import Heading from 'lib/components/common/Heading';
 import CommonMark from 'lib/components/common/CommonMark';
 import s from './ExternalDocumentation.css';
+import PropTypes from 'prop-types'
 
 
 function ExternalDocumentation(props) {

@@ -1,0 +1,28 @@
+.Responses {
+
+}
+.NestedFunctionView {
+    display: flex;
+    flex-direction: row;
+}
+.NestedFunction {
+    color: #bb501c;
+    font-size: 17px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+.NestedFunction:hover {
+    color: #bb501c;
+    text-decoration: underline;
+    font-size: 17px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+.NestedFunctionText {
+    color: black;
+    font-size: 17px;
+    margin-top: 15px;
+}
+.leftArrow {
+    color: black;
+}

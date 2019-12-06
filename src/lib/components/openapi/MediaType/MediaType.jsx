@@ -1,13 +1,13 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import Heading from 'lib/components/common/Heading';
 import s from './MediaType.css';
+import PropTypes from 'prop-types'
 
 
 function MediaType(props) {
   const className = classnames(s.mediaType, props.className);
 
-  console.log(props.schema);
 
   return (
     <div className={className}>

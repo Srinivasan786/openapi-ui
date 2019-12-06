@@ -1,9 +1,10 @@
-import React, { PropTypes } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import CommonMark from 'lib/components/common/CommonMark';
 import List from 'lib/components/common/List';
 import LabelValueListItem from 'lib/components/common/LabelValueListItem';
 import s from './Parameter.css';
+import PropTypes from 'prop-types'
 
 
 const defaultStyles = {
@@ -15,6 +16,7 @@ const defaultStyles = {
 
 
 function Parameter(props) {
+  const [ view, setView ] = useState(false);
   const className = classnames(s.parameter, props.className);
 
   let style = props.style || defaultStyles[props.in];
@@ -43,9 +45,31 @@ function Parameter(props) {
     );
   }
 
+  function onClickButton(value) {
+    let key = `${value.name} ${value.in}`;
+    if (key !== view) {
+    setView(key);
+    } else {
+      setView('');
+    }
+  }
+
+  let type = ''
+  if(props && props.schema){
+    type = props.schema.type
+  }else {
+    type = props.type
+  }
+
   return (
     <div className={className}>
       <List>
+      <a className={s.textView}
+            onClick={() => onClickButton(props)}>
+            <span>{ props.name + ':' + type }</span>
+          </a>
+          {view === `${props.name} ${props.in}` &&
+            <div>
         <LabelValueListItem label="Name">
           { props.name }
         </LabelValueListItem>
@@ -59,6 +83,9 @@ function Parameter(props) {
         { explode }
 
         { allowReserved }
+        </div>
+          }
+
       </List>
     </div>
   );

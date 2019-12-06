@@ -1,0 +1,23 @@
+.sidebar {
+    padding: 10px;
+    color: white;   
+}
+#listIcon {
+    color: black;
+    font-size: 17px;
+    cursor: pointer !important;
+}
+   .node {
+        padding: 2px;
+        margin-top: 10px;
+    }
+
+    .label {
+        font-size: 10pt;
+        border-radius: 5px;
+        background-color: #eee;
+        color: black;
+        margin-left: 4px;
+        padding: 3px;
+        border: 1px solid white;
+    }

@@ -1,5 +1,6 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import commonmark from 'commonmark';
+import PropTypes from 'prop-types'
 
 
 const reader = new commonmark.Parser();

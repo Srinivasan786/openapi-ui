@@ -1,3 +1,10 @@
 .parameter {
   margin: 5px 0;
 }
+.textView {
+  color: #bb501c;
+}
+.textView:hover {
+  color: #bb501c;
+  text-decoration: underline;
+}

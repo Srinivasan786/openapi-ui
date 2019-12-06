@@ -1,0 +1,34 @@
+.ResponseItem {
+  margin: 5px 0;
+}
+.textView {
+  color: #bb501c;
+}
+.textView:hover {
+  color: #bb501c;
+  text-decoration: underline;
+}
+#buttonStyle {
+  margin-left: 10px;
+  border-radius: 0;
+  color: black;
+  height: auto;
+  border-color: black;
+}
+#buttonStyle:hover {
+  margin-left: 10px;
+  border-radius: 0;
+  color: black;
+  background-color: #f2f4f5;
+  border-color: black;
+  height: auto;
+}
+.linkView {
+  display: flex;
+  flex-direction: row;
+}
+#buttonStyle:active{
+background-color: none !important;
+box-shadow: none !important;
+border: none !important;
+}

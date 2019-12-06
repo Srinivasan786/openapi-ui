@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import Heading from 'lib/components/common/Heading';
@@ -6,6 +6,7 @@ import Operation from 'lib/components/openapi/Operation';
 import CommonMark from 'lib/components/common/CommonMark';
 import { operationMethods } from 'constants';
 import s from './PathItem.css';
+import PropTypes from 'prop-types'
 
 
 const mergeParameters = (pathItemParameters = [], operationParameters = []) => {
@@ -33,13 +34,14 @@ function PathItem(props) {
       {
         operationMethods
         .filter(method => props[method])
-        .map(method => {
+        .map((method) => {
           let operation = props[method];
           let parameters = mergeParameters(props.parameters, operation.parameters);
           return (
             <Operation
               {...operation}
               key={method}
+              index={props.index}
               parameters={parameters}
               method={method}
             />
@@ -62,7 +64,8 @@ PathItem.propTypes = {
   patch: PropTypes.object,
   trace: PropTypes.object,
   servers: PropTypes.array,
-  parameters: PropTypes.array
+  parameters: PropTypes.array,
+  index: PropTypes.number
 };
 
 

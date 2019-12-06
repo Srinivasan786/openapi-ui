@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import s from './OAuthFlow.css';
+import PropTypes from 'prop-types'
 
 
 function OAuthFlow(props) {
