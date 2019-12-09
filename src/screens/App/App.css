@@ -67,7 +67,7 @@ $app-body-box-sizing: border-box !default;
 
     .body {
         width: calc(100% - $app-sidebar-width);
-        transform: translateX(428px);
+        transform: translateX(400px);
         padding: $app-body-padding;
         box-sizing: $app-body-box-sizing;
     }

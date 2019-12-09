@@ -75,7 +75,7 @@ function ResponseItem(props) {
           <div className={s.linkView}>
             <a className={s.textView}
               onClick={() => onClickText(props)}>
-              <span>{props.name + '(optional)' + ':' + props.responsesData.type}</span>
+              <span>{props.name + '(optional)' + ':' + ' '+ props.responsesData.type}</span>
             </a>
             <div>
               {props.responsesData.type === 'array' &&
@@ -85,12 +85,8 @@ function ResponseItem(props) {
           </div>
           :
           <div>
-            {props.responsesData.readOnly === true &&
-              <div>
-                {props.name + '(optional)' + ':' + 'object'}
-                <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
-              </div>
-            }
+            {props.name + '(optional)' + ':' + ' '+ 'object'}
+            <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
           </div>
         }
         {view === `${props.name}` &&

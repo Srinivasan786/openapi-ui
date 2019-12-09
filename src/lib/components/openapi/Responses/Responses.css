@@ -26,3 +26,13 @@
 .leftArrow {
     color: black;
 }
+.responseType {
+    color: black;
+    font-size: 15px;
+    flex-direction: row;
+    display: flex;
+    margin-bottom: 10px;
+}
+.responseTypeText{
+    font-size: 15px;
+}

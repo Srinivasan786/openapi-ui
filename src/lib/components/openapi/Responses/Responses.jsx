@@ -14,6 +14,7 @@ function Responses(props) {
   const [mediaType, setMediaType] = useState([]);
   const [showDefaultResSource, setDefaultResSource] = useState(false);
   const [nestedResponses, setNestedResponses] = useState([]);
+  const [responsesType, setResponsesType] = useState('object');
 
   let successResponse = '200';
 
@@ -37,10 +38,16 @@ function Responses(props) {
         tempMediaType.push(mediaTypeData[0]);
       });
       setResponses(tempResponse);
+      let tempNestedResponses = [];
+      let responseDetails = {
+        name: 'Main Source',
+        responsesData: tempResponse,
+      }
+      tempNestedResponses.push(responseDetails);
+      setNestedResponses(tempNestedResponses);
       setMediaType(tempMediaType);
     }
   }, [props]);
-
 
   function onShowDefaultResSource() {
     setDefaultResSource(!showDefaultResSource)
@@ -58,19 +65,21 @@ function Responses(props) {
       let responsesData = {}
       Object.keys(value.responsesData).map((data, index) => {
         if (value.responsesData.type && value.responsesData.type === 'array') {
-          if (value.responsesData[data] && 
+          if (value.responsesData[data] &&
             value.responsesData[data].properties) {
-           responsesData = value.responsesData[data].properties;
-            }
+            responsesData = value.responsesData[data].properties;
+          }
         } else {
-          if (value.responsesData[data] && 
+          if (value.responsesData[data] &&
             value.responsesData[data][0] &&
             value.responsesData[data][0].properties) {
-              let properties = value.responsesData[data][0].properties;
-           responsesData = value.responsesData[data][0].properties;
-            }
+            let properties = value.responsesData[data][0].properties;
+            responsesData = value.responsesData[data][0].properties;
+          }
         }
       });
+      let type = value.responsesData.type ? value.responsesData.type : 'object';
+      setResponsesType(type);
       setResponses(responsesData);
       let tempNestedResponses = nestedResponses && nestedResponses.length !== 0 ? nestedResponses : [];
       let responseDetails = {
@@ -90,19 +99,21 @@ function Responses(props) {
       let responsesData = {}
       Object.keys(value.responsesData).map((data, index) => {
         if (value.responsesData.type && value.responsesData.type === 'array') {
-          if (value.responsesData[data] && 
+          if (value.responsesData[data] &&
             value.responsesData[data].properties) {
-           responsesData = value.responsesData[data].properties;
-            }
+            responsesData = value.responsesData[data].properties;
+          }
         } else {
-          if (value.responsesData[data] && 
+          if (value.responsesData[data] &&
             value.responsesData[data][0] &&
             value.responsesData[data][0].properties) {
-              let properties = value.responsesData[data][0].properties;
-           responsesData = value.responsesData[data][0].properties;
-            }
+            responsesData = value.responsesData[data][0].properties;
+          }
         }
       });
+      responsesData = value.name === 'Main Source' ? value.responsesData : responsesData;
+      let type = value.responsesData.type ? value.responsesData.type : 'object';
+      setResponsesType(type);
       setResponses(responsesData);
       let indexValue = 0;
       nestedResponses.map((res, index) => {
@@ -130,15 +141,16 @@ function Responses(props) {
         </div>
         :
         <div className={s.NestedFunctionView}>
-        <div className={s.NestedFunction} onClick={() => selectResponse(responsesValue)}>
-          {responsesValue.name} 
-        </div>
-        <div className={s.NestedFunctionText}>
-          > 
+          <div className={s.NestedFunction} onClick={() => selectResponse(responsesValue)}>
+            {responsesValue.name}
+          </div>
+          <div className={s.NestedFunctionText}>
+            >
         </div>
         </div>
       }
     </div>;
+
 
   return (
     <div className={className}>
@@ -160,6 +172,7 @@ function Responses(props) {
           <Heading level="h3">Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3">)</Heading>
         </div>
       }
+<div className={s.responseType}>Type: {' '}{responsesType}</div>
 
       {/* Show the responsedetails */}
       <div>

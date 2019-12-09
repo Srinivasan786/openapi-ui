@@ -130,7 +130,7 @@ function Operation(props) {
       </div>
 
       <div ref={refElem => resRef[props.index] = refElem}>
-        <Responses responses={props.responses} /> :
+        <Responses responses={props.responses} />
       </div>
 
     </section>

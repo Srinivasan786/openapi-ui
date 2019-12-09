@@ -7,6 +7,7 @@
     .expandAndCollapseView {
         display: flex;
         justify-content: flex-end;
+        padding-left: 240px;
     }
 
     #expandAndCollapseIcon {

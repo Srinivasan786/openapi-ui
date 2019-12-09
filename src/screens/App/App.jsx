@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Spin } from 'antd';
+import _ from 'lodash';
 import OpenAPI from 'lib/components/openapi/OpenAPI';
 import SidebarIcons from 'lib/components/common/SidebarIcons';
 import Sidebar from 'lib/components/common/Sidebar';
@@ -9,7 +11,7 @@ import OpenAPISelectors from 'selectors/OpenAPISelectors';
 import PropTypes from 'prop-types'
 import { RedocStandalone } from 'redoc';
 import s from './App.css';
-import { Spin } from 'antd';
+
 
 
 
@@ -21,6 +23,30 @@ function App(props) {
   const [node, setNode] = useState('');
   const [sideBarNode, setSideBarNode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [pathArray, setPathArray] = useState([]);
+
+  // useEffect(() => {
+  //   if (Object.keys(paths).length !== 0) {
+  //     let tempPathData = [];
+  //     Object.keys(paths).map((res, index) => {
+  //       tempPathData.push(res);
+  //     });
+  //     if (tempPathData[0]) {
+  //     let path = tempPathData[0];
+  //     let pathData = path.split('/');
+  //     let pathValues = [];
+  //     pathData.map((res) => {
+  //       if(res &&  !_.startsWith(res, '{')) {
+  //         pathValues.push(res);
+  //       }
+  //     });
+  //     setPathArray(pathValues);
+  //     // let ParentNode = _.startsWith(pathData[pathData.length - 2], '{') ? false : true;
+  //     console.log('pathValues', paths, pathValues);
+  //     }
+  //   }
+
+  // }, [paths])
 
   useEffect(() => {
     setPrevNext('')
