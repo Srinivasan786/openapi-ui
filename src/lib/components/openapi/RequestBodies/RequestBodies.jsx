@@ -11,7 +11,7 @@ function RequestBodies(props) {
   const className = classnames(s.requestBodies, props.className);
   return (
     <section className={className}>
-      <Heading level="h5">Request body</Heading>
+      <Heading level="h3" className={s.headingRequest}>Request body</Heading>
       {
         props.requestBodies.map(requestBody => {
           return (

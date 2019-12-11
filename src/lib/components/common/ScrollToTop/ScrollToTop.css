@@ -1,8 +1,5 @@
 .scroll {
-    background-color: aqua;
-    width: 85px;
-    height: 40px;
-    position: fixed;
+    position: fixed !important;
     bottom: 10px;
     right: 10px;
     border-radius: 5px;

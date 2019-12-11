@@ -3,6 +3,19 @@
 }
 .textView {
   color: #bb501c;
+  border: none !important
+}
+.titleName {
+  font-size: 16px;
+  font-weight: 500
+}
+.listItem {
+  border: none !important;
+  border-bottom: 1px solid #dedad6 !important;
+  padding-top: 9px;
+  padding-bottom: 10px;
+  padding-left: 13px;
+  margin-bottom: -6px
 }
 .textView:hover {
   color: #bb501c;

@@ -70,7 +70,8 @@ function ResponseItem(props) {
 
   return (
     <div className={className}>
-      <List>
+      <div className={s.listOuter}>
+      <List className={s.listConstant}>
         {props.responsesData.type ?
           <div className={s.linkView}>
             <a className={s.textView}
@@ -104,6 +105,7 @@ function ResponseItem(props) {
         }
 
       </List>
+      </div>
     </div>
   );
 }

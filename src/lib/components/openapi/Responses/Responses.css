@@ -1,5 +1,5 @@
 .Responses {
-
+   padding-left: 10px
 }
 .NestedFunctionView {
     display: flex;
@@ -10,6 +10,7 @@
     font-size: 17px;
     margin-top: 15px;
     cursor: pointer;
+    font-weight: bold
 }
 .NestedFunction:hover {
     color: #bb501c;
@@ -22,17 +23,57 @@
     color: black;
     font-size: 17px;
     margin-top: 15px;
+    font-weight: bold
 }
 .leftArrow {
     color: black;
 }
 .responseType {
     color: black;
-    font-size: 15px;
+    font-size: 17px;
     flex-direction: row;
     display: flex;
     margin-bottom: 10px;
 }
 .responseTypeText{
     font-size: 15px;
+}
+.listModal{
+    /* background-color: red; */
+    border: 2px solid #dedad6;
+    /* padding-left: 10px; */
+    border-radius: 4px;
+    margin-top: 10px;
+}
+.listModal >  div{ 
+    border: none !important;
+    border-bottom: none !important;
+    /* padding-top: 9px; */
+    /* padding-bottom: 10px; */
+    padding-left: 13px;
+    /* margin-bottom: -6px; */
+}
+.mediaModal > ul {
+    /* background-color: red; */
+    border: 2px solid #dedad6;
+    padding-left: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: black
+}
+.responseHeader {
+    font-size: 26px !important;
+    font-weight: bold;
+}
+.responseDesc {
+    font-size: 16px !important;
+    font-weight: bold;
+}
+.defaultHeader {
+    font-size: 19px !important;
+}
+.defaultdesc {
+    font-size: 17px !important;
+    padding-left: 15px
 }

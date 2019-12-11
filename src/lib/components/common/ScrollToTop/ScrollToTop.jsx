@@ -1,14 +1,15 @@
 import React from 'react';
 import s from './ScrollToTop.css';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { Icon, Button } from 'antd';
 
 const intervalId = 0
 
 function ScrollToTop(props) {
     return (
-        <button title='Back to top' className={s.scroll}
-                onClick={() => { scrollTop(props); }}>Back to top
-        </button>
+        <Button type="primary" className={s.scroll} onClick={() => scrollTop(props)}>
+          <Icon type="up" />
+        </Button>
     );
 }
 

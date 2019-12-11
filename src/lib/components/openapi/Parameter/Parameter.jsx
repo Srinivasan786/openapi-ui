@@ -63,10 +63,10 @@ function Parameter(props) {
 
   return (
     <div className={className}>
-      <List>
+      <List className={s.listItem}>
       <a className={s.textView}
             onClick={() => onClickButton(props)}>
-            <span>{ props.name + ':' + ' '+ type }</span>
+            <span className={s.titleName}>{ props.name + ':' + ' '+ type }</span>
           </a>
           {view === `${props.name} ${props.in}` &&
             <div>

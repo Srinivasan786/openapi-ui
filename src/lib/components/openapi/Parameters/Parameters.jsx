@@ -20,20 +20,42 @@ function Parameters(props) {
   };
 
   return (
-    <div className={className}>
-      <Heading level="h2">Request</Heading>
-      {pathParameters.length > 0 && <Heading level="h3">Path parameters</Heading>}
+    <div style={{marginLeft: 10}}>
+      <Heading level="h1" className={s.headingParameter}>Request</Heading>
+      {pathParameters.length > 0 &&
+      <div>
+      <Heading level="h3" className={s.headingParameter}>Path parameters</Heading>
+      <div className={className}>
       {pathParameters.map(create)}
-
-      {queryParameters.length > 0 && <Heading level="h3">Query parameters</Heading>}
+      </div>
+      </div>
+      }
+      {queryParameters.length > 0 &&
+      <div>
+      <Heading level="h3" className={s.headingParameter}>Query parameters</Heading>
+      <div className={className}>
       {queryParameters.map(create)}
-
-      {headerParameters.length > 0 && <Heading level="h3">Header parameters</Heading>}
+      </div>
+      </div>
+      }
+      {headerParameters.length > 0 &&
+      <div>
+      <Heading level="h3" className={s.headingParameter}>Header parameters</Heading>
+      <div className={className}>
       {headerParameters.map(create)}
-
-      {cookieParameters.length > 0 && <Heading level="h3">Cookie parameters</Heading>}
+      </div>
+      </div>
+      }
+      {cookieParameters.length > 0 &&
+      <div>
+      <Heading level="h3" className={s.headingParameter}>Cookie parameters</Heading>
+      <div className={className}>
       {cookieParameters.map(create)}
-    </div>
+      </div>
+      </div>
+      }
+      </div>
+    
   );
 }
 Parameters.propTypes = {

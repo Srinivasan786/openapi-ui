@@ -1,0 +1,41 @@
+.ParentPathItem {
+  /* background: red; */
+  padding-left: 24px;
+  padding-bottom: 12px;
+  padding-right: 12px;
+  padding-top: 10px;
+  border-bottom: 1px solid #dedad6 !important
+}
+.methodView {
+  border-radius: 4px;
+  padding-left: 22px;
+  padding-right: 22.5px;
+  font-size: 14px;
+  color: white;
+  max-height: max-content;
+  padding-bottom: 3px;
+}
+#get {
+  background-color: #438c9a; 
+}
+#post {
+  background-color: #6a9d67; 
+}
+#delete {
+  background-color: #e55944;
+}
+#patch {
+  background-color: #d6682b;
+}
+.methodText{
+  font-size: 16px;
+  color: #000000;
+}
+.pathText{
+  font-size: 16px;
+  color: #000000;
+}
+.pathValue {
+max-width: 95%;
+    word-wrap: break-word;
+}

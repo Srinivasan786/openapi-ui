@@ -73,7 +73,6 @@ function Responses(props) {
           if (value.responsesData[data] &&
             value.responsesData[data][0] &&
             value.responsesData[data][0].properties) {
-            let properties = value.responsesData[data][0].properties;
             responsesData = value.responsesData[data][0].properties;
           }
         }
@@ -156,21 +155,24 @@ function Responses(props) {
     <div className={className}>
       {responses && Object.keys(responses).length !== 0 &&
         <div>
-          <Heading level="h3">Responses</Heading>
-          <Heading level="h5">Supported Media Types</Heading>
+          <Heading level="h1" className={s.responseHeader}>Responses</Heading>
+          <Heading level="h5" className={s.responseDesc}>Supported Media Types</Heading>
         </div>
       }
 
       {/* Show mediaType */}
+      <div className={s.mediaModal}>
       {mediaType && mediaType.map(mediaTypeCreate)}
+      </div>
 
-      <Heading level="h3">Default Response</Heading>
-      <Heading level="h5">The following table describes the default response for this task.</Heading>
+      <Heading level="h3" className={s.defaultHeader}>Default Response</Heading>
+      <Heading level="h5" className={s.defaultdesc}>The following table describes the default response for this task.</Heading>
 
       {nestedResponses && nestedResponses.length > 0 &&
         <div className={s.NestedFunctionView}>
-          <Heading level="h3">Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3">)</Heading>
-        </div>
+          <Heading level="h3" className={s.responseDesc}>Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3" className={s.responseDesc}>)</Heading>
+          {/* <Heading level="h3" className={s.responseDesc}>Body( {nestedResponses && nestedResponses.map(nestedLink)} )</Heading> */}
+</div>
       }
 <div className={s.responseType}>Type: {' '}{responsesType}</div>
 
@@ -182,7 +184,7 @@ function Responses(props) {
           }
         </div>
         {showDefaultResSource === false ?
-          <div>{Object.keys(responses).map(create)}</div>
+          <div className={s.listModal}>{Object.keys(responses).map(create)}</div>
           :
           renderSourceRes(responses)
         }

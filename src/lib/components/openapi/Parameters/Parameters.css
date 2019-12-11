@@ -1,3 +1,10 @@
 .parameters {
-
+   border: 2px solid #dedad6;
+   padding-left: 10px;
+   border-radius: 4px;
+   margin-top: 10px
+}
+.headingParameter {
+    font-size: 16px;
+    font-weight: bold
 }

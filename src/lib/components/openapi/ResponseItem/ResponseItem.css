@@ -3,6 +3,8 @@
 }
 .textView {
   color: #bb501c;
+  font-size: 16px;
+  font-weight: 500
 }
 .textView:hover {
   color: #bb501c;
@@ -26,9 +28,24 @@
 .linkView {
   display: flex;
   flex-direction: row;
+  /* background: red; */
 }
 #buttonStyle:active{
 background-color: none !important;
 box-shadow: none !important;
 border: none !important;
+}
+.listConstant{
+  border: none !important;
+  font-size: 16px;
+  font-weight: 500;
+  color: black
+}
+.listOuter{ 
+border: none !important;
+border-bottom: 1px solid #dedad6 !important;
+padding-top: 9px;
+padding-bottom: 10px;
+/* padding-left: 13px; */
+margin-bottom: -6px;
 }
