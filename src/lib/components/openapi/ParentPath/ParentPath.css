@@ -1,5 +1,5 @@
 .ParentPath {
-  
+  margin-top: 20px;
 }
 .textView {
     color: #bb501c;
@@ -46,4 +46,5 @@
   .listView{
     padding-left: 21px;
     padding-top: 10px;
+    background: #ffffff;
   }

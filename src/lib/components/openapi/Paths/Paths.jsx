@@ -12,9 +12,10 @@ function Paths(props) {
     <section className={className}>
       <Heading
         id="paths"
+        className={s.titleView}
         level="h2"
       >
-        Paths
+        {props.tagTitle}
       </Heading>
       {
         Object.keys(props.paths).map((path, index) => {

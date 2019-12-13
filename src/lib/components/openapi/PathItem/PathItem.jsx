@@ -22,12 +22,12 @@ function PathItem(props) {
   return (
     <section className={className}>
       <header className={s.header}>
-        <Heading
+        {/* <Heading
           className={s.heading}
           level="h3"
         >
           { props.path }
-        </Heading>
+        </Heading> */}
         <span className={s.summary}>{props.summary}</span>
       </header>
       <CommonMark>{ props.description }</CommonMark>
@@ -44,6 +44,7 @@ function PathItem(props) {
               index={props.index}
               parameters={parameters}
               method={method}
+              path={props.path}
             />
           );
         })

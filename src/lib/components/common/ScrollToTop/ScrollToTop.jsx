@@ -7,8 +7,11 @@ const intervalId = 0
 
 function ScrollToTop(props) {
     return (
-        <Button type="primary" className={s.scroll} onClick={() => scrollTop(props)}>
-          <Icon type="up" />
+        <Button
+            type="primary"
+            className={s.topButton}
+            onClick={() => scrollTop(props)}>
+            <Icon type="up" className={s.iconView} />
         </Button>
     );
 }
@@ -22,7 +25,7 @@ function scrollStep(props) {
     if (window.pageYOffset === 0) {
         clearInterval(intervalId);
     }
-    window.scroll(0,0);
+    window.scroll(0, 0);
 }
 
 ScrollToTop.propTypes = {

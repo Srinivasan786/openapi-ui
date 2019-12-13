@@ -1,10 +1,10 @@
-$operation-color-get: #0dd0ff !default;
-$operation-color-post: #0ce894 !default;
+$operation-color-get: #438c9a !default;
+$operation-color-post: #6a9d67 !default;
 $operation-color-put: #ffc010 !default;
-$operation-color-delete: #e83f0c !default;
+$operation-color-delete: #e55944 !default;
 $operation-color-options: #ce0be8 !default;
 $operation-color-head: #0b16e8 !default;
-$operation-color-patch: #e80ba9 !default;
+$operation-color-patch: #d6682b !default;
 $operation-color-trace: #5f0be8 !default;
 
 $operation-header-background-get: color($operation-color-get lightness(+35%)) !default;
@@ -17,10 +17,11 @@ $operation-header-background-patch: color($operation-color-patch lightness(+35%)
 $operation-header-background-trace: color($operation-color-trace lightness(+35%)) !default;
 
 .operation {
-  border: 1px solid #eee;
+  /* border: 1px solid #eee; */
   border-radius: 4px;
   padding: 5px;
   margin: 10px 0;
+  margin-top: 0px !important;
 
   .header {
     border-radius: 4px 4px 0 0;
@@ -30,7 +31,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     margin: 0 0 1em 0;
 
     &.methodGet {
-      background: $operation-header-background-get;
+      /* background: $operation-header-background-get; */
 
       .heading > .inner {
         background: $operation-color-get;
@@ -38,7 +39,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodPut {
-      background: $operation-header-background-put;
+      /* background: $operation-header-background-put; */
 
       .heading > .inner {
         background: $operation-color-put;
@@ -46,7 +47,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodPost {
-      background: $operation-header-background-post;
+      /* background: $operation-header-background-post; */
 
       .heading > .inner {
         background: $operation-color-post;
@@ -54,7 +55,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodDelete {
-      background: $operation-header-background-delete;
+      /* background: $operation-header-background-delete; */
 
       .heading > .inner {
         background: $operation-color-delete;
@@ -62,7 +63,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodOptions {
-      background: $operation-header-background-options;
+      /* background: $operation-header-background-options; */
 
       .heading > .inner {
         background: $operation-color-options;
@@ -70,7 +71,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodHead {
-      background: $operation-header-background-head;
+      /* background: $operation-header-background-head; */
 
       .heading > .inner {
         background: $operation-color-head;
@@ -78,7 +79,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodPatch {
-      background: $operation-header-background-patch;
+      /* background: $operation-header-background-patch; */
 
       .heading > .inner {
         background: $operation-color-patch;
@@ -86,7 +87,7 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
 
     &.methodTrace {
-      background: $operation-header-background-trace;
+      /* background: $operation-header-background-trace; */
 
       .heading > .inner {
         background: $operation-color-trace;
@@ -113,4 +114,71 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     }
   }
 
+}
+.urlView{
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 0px !important;
+}
+.buttonContainar{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.jumpButton{
+  /* margin-top: 13px !important;
+  margin-top: 15px !important; */
+    padding-top: 12px !important;
+    padding-bottom: 11px !important;
+    padding-left: 23px !important;
+    padding-right: 15px !important;
+    border-radius: 4px !important;
+    box-shadow: 0 1px 2px 0 rgba(29, 29, 29, 0.3) !important;
+    background-color: #ffffff !important;
+    font-family: 'Oracle Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1 !important;
+    letter-spacing: normal !important;
+    text-align: left !important;
+    color: #1a1816 !important;
+    border: none !important;
+    width: 160px !important;
+    height: auto !important;
+ 
+}
+.inner{
+  padding-left: 22px !important;
+  padding-right: 22.5px !important;
+  /* background-color: #6a9d67 !important; */
+  font-family: 'Oracle Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1 !important;
+    letter-spacing: 0.01px !important;
+    text-align: center !important;
+    color: #ffffff !important;
+    border-radius: 5px !important;
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+}
+.jumpText{
+  font-weight: 400;
+}
+.fullContainar{
+  border-bottom: 2px solid #dedad6;
+}
+.sourceTitle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -30px;
+  margin-right: 10px
+}
+.pathView{
+  width: 76%;
+  word-wrap: break-word;
 }

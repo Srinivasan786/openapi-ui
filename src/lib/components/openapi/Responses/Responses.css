@@ -1,5 +1,5 @@
 .Responses {
-   padding-left: 10px
+   padding-left: 10px;
 }
 .NestedFunctionView {
     display: flex;
@@ -44,6 +44,9 @@
     /* padding-left: 10px; */
     border-radius: 4px;
     margin-top: 10px;
+    background: #ffffff;
+    border-bottom: 2px solid #dedad6;
+    /* position: relative; */
 }
 .listModal >  div{ 
     border: none !important;
@@ -51,16 +54,19 @@
     /* padding-top: 9px; */
     /* padding-bottom: 10px; */
     padding-left: 13px;
+    background: #ffffff
+    /* position: relative; */
     /* margin-bottom: -6px; */
 }
-.mediaModal > ul {
+.mediaModal {
     /* background-color: red; */
     border: 2px solid #dedad6;
     padding-left: 10px;
     border-radius: 4px;
     margin-top: 10px;
     font-size: 16px;
-    color: black
+    color: black;
+    background: #ffffff
 }
 .responseHeader {
     font-size: 26px !important;
@@ -77,3 +83,48 @@
     font-size: 17px !important;
     padding-left: 15px
 }
+.sourceTitle {
+    position: absolute;
+    /* left: 89%; */
+    margin-top: 12px;
+    /* margin-right: 24px; */
+    /* border: 1px solid black; */
+    border: 1px solid #dedad6;
+    font-size: 12px;
+    padding: 0px;
+    color: black;
+    padding-right: 7px;
+    padding-left: 7px;
+    padding-bottom: 4px;
+    padding-top: 2px;
+    border-radius: 5px;
+}
+.textStyleSmall {
+    color: black;
+    font-size: 16px;
+    font-family: "Courier New", Courier, monospace;
+    margin-top: 3px;
+    margin-left: 5px;
+  }
+ .sourceView {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1px;
+    
+  }
+  .sourceTitle:hover{
+      color: black;
+      border: 1px solid #dedad6;
+  }
+  .mediaModal > div{ 
+    border: none !important;
+    border-bottom: 1px solid #dedad6 !important;
+    padding-top: 9px;
+    padding-bottom: 11px;
+    /* padding-left: 13px; */
+    margin-bottom: -1px;
+    }
+    /* .listModal > div{ 
+       
+        } */

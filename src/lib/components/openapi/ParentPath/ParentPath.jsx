@@ -63,7 +63,7 @@ function ParentPath(props) {
             });
 
             //To get without childnode data
-            subTagValue.map((res, key) => {
+            subTagValue.map((res, keys) => {
               let replacedTagSub = res.tag.replace(/%2B/g, '/');
               let replacedTagTempSub = replacedTagSub.replace(/%20/g, ' ');
               let tagArrayTempSub = replacedTagTempSub.split('/');
@@ -105,7 +105,7 @@ function ParentPath(props) {
             Object.keys(paths[path][pathData]).length > 0) {
 
             let count = 0
-            pathValue.map((res, key) => {
+            pathValue.map((res, keyValues) => {
               if (res !== path) {
                 count = count + 1
               }

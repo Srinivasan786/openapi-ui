@@ -2,9 +2,44 @@
    border: 2px solid #dedad6;
    padding-left: 10px;
    border-radius: 4px;
-   margin-top: 10px
+   margin-top: 10px;
+   background: #ffffff;
 }
 .headingParameter {
     font-size: 16px;
     font-weight: bold
 }
+.sourceTitle {
+    position: absolute;
+    /* left: 89%; */
+    margin-top: 12px;
+    /* margin-right: 24px; */
+    /* border: 1px solid black; */
+    border: 1px solid #dedad6;
+    font-size: 12px;
+    padding: 0px;
+    color: black;
+    padding-right: 7px;
+    padding-left: 7px;
+    padding-bottom: 4px;
+    padding-top: 2px;
+    border-radius: 5px;
+}
+ .sourceView {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 1px;
+    
+  }
+  .sourceTitle:hover{
+      color: black;
+      border: 1px solid #dedad6;
+  }
+  .sourceCodeView {
+    border: 2px solid #dedad6;
+   padding-left: 10px;
+   border-radius: 4px;
+   margin-top: 10px;
+   background: #ffffff;
+  }

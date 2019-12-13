@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from 'antd';
 import PropTypes from 'prop-types'
 import classnames from 'classnames';
 import s from './SidebarIcons.css';
@@ -17,9 +18,11 @@ function SidebarIcons(props) {
 
   return (
     <div className={className}>
-      <ul>
-        <i onClick={onClickBar} className="fa fa-list" id={s.listIcon} />
-      </ul>
+      <Tooltip placement="right" title={'Table of contents'}>
+        <ul>
+          <i onClick={onClickBar} className="fa fa-list" id={s.listIcon} />
+        </ul>
+      </Tooltip>
     </div >
   );
 }

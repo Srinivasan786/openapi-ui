@@ -71,40 +71,47 @@ function ResponseItem(props) {
   return (
     <div className={className}>
       <div className={s.listOuter}>
-      <List className={s.listConstant}>
-        {props.responsesData.type ?
-          <div className={s.linkView}>
-            <a className={s.textView}
-              onClick={() => onClickText(props)}>
-              <span>{props.name + '(optional)' + ':' + ' '+ props.responsesData.type}</span>
-            </a>
+        <List className={s.listConstant}>
+          {props.responsesData.type ?
+            <div className={s.linkView}>
+              <a className={s.textView}
+                onClick={() => onClickText(props)}>
+                <span>{props.name + '(optional):' + ' ' + props.responsesData.type}</span>
+              </a>
+              <div>
+                {props.responsesData.type === 'array' &&
+                  <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
+                }
+              </div>
+            </div>
+            :
             <div>
-              {props.responsesData.type === 'array' &&
-                <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
+              {props.name + '(optional)' + ':' + ' ' + 'object'}
+              <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
+            </div>
+          }
+          {view === `${props.name}` &&
+            <div>
+              <div className={s.textStyle}>
+                Name: <span className={s.textStyleSmall}>{props.name}</span>
+              </div>
+              <div className={s.textStyle}>
+                {props.description}
+              </div>
+              {props.explode &&
+                <div className={s.textStyle}>
+                  Explode: <span className={s.textStyleSmall}>{props.explode}</span>
+                </div>
+              }
+              {props.allowReserved &&
+                <div className={s.textStyle}>
+                  AllowReserved: <span className={s.textStyleSmall}>{props.allowReserved}</span>
+                </div>
               }
             </div>
-          </div>
-          :
-          <div>
-            {props.name + '(optional)' + ':' + ' '+ 'object'}
-            <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
-          </div>
-        }
-        {view === `${props.name}` &&
-          <div>
-            <LabelValueListItem label="Name">
-              {props.name}
-            </LabelValueListItem>
+          }
 
-            {description}
-
-            {explode}
-
-            {allowReserved}
-          </div>
-        }
-
-      </List>
+        </List>
       </div>
     </div>
   );

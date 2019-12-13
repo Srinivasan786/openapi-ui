@@ -2,7 +2,10 @@
     padding: 0.25px;
     padding-left: 10px;
     color: white;
-    width: 70%;
+    /* width: 70%; */
+    display: flex;
+    justify-content: space-evenly;
+    float: right;
     
     .expandAndCollapseView {
         display: flex;
@@ -64,4 +67,49 @@
         padding: 3px;
         /* border: 1px solid white; */
     }
+}
+.previousButton{
+    border-radius: 4px;
+    border: solid 1px #1a1816;
+    border-color: #1a1816 !important;
+    width: 44px;
+    height: 44px;
+    background-color: #fcfbfa;
+    margin-right: 7px !important;
+}
+.iconView{
+    color: #1a1816;
+    line-height: 44px;
+    font-size: 16px !important;
+    /* font-weight: bolder; */
+}
+.nextButton{
+    border-radius: 4px;
+    border: solid 1px #1a1816 !important;
+    border-right-color: #1a1816 !important;
+    width: 44px;
+    height: 44px;
+    background-color: #fcfbfa;
+    margin-left: 7px;
+}
+.nextButton:hover{
+    background-color: #f3f1ef;
+}
+.previousButton:hover{
+    background-color: #f3f1ef;
+    /* border: none; */
+    border-color: black !important;
+    
+    
+}
+.previousButton:active{
+    /* background-color: #f3f1ef; */
+    /* border: none; */
+    /* border-color: none; */
+    border: 2px solid green;
+    box-shadow: 0 2px 0 red;
+}
+.previousButton::selection{
+    background: red !important;
+    color: #f3f1ef !important;
 }

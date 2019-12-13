@@ -10,42 +10,68 @@ import List from 'lib/components/common/List';
 function Responses(props) {
   const className = classnames(s.Responses, props.className);
 
-  const [responses, setResponses] = useState([]);
+
+  const [responses, setResponses] = useState({});
   const [mediaType, setMediaType] = useState([]);
   const [showDefaultResSource, setDefaultResSource] = useState(false);
   const [nestedResponses, setNestedResponses] = useState([]);
   const [responsesType, setResponsesType] = useState('object');
+  const [responsesContent, setResponsesContent] = useState('200');
 
   let successResponse = '200';
+  let noContentResponse = '204';
 
   useEffect(() => {
+    let content = {};
     if (props &&
-      props.responses &&
-      props.responses[successResponse] &&
-      props.responses[successResponse].content
-    ) {
-      let tempResponse = {};
-      let tempMediaType = [];
-      Object.keys(props.responses[successResponse].content).map((path, index) => {
-        let mediaTypeData = path.split(';');
-        let value = props.responses[successResponse].content[path];
-        if (value &&
-          value.schema &&
-          value.schema.properties
-        ) {
-          tempResponse = value.schema.properties;
-        }
-        tempMediaType.push(mediaTypeData[0]);
-      });
-      setResponses(tempResponse);
-      let tempNestedResponses = [];
-      let responseDetails = {
-        name: 'Main Source',
-        responsesData: tempResponse,
+      (props.responses || props.requestBodies)) {
+      let resData = '200';
+      if (props.responses) {
+        Object.keys(props.responses).map((res, key) => {
+          if (key === 0) {
+            resData = res;
+          }
+        });
       }
-      tempNestedResponses.push(responseDetails);
-      setNestedResponses(tempNestedResponses);
-      setMediaType(tempMediaType);
+      setResponsesContent(resData);
+      //Check the the response 200 or 204
+      if (resData !== noContentResponse) {
+        //Check the props value response or request body    
+        if (props &&
+          props.responses &&
+          props.responses[resData] &&
+          props.responses[resData].content) {
+          content = props.responses[resData].content;
+        } else if (props &&
+          props.requestBodies &&
+          props.requestBodies.content) {
+          content = props.requestBodies.content;
+        }
+        if (Object.keys(content).length > 0) {
+          let tempResponse = {};
+          let tempMediaType = [];
+          Object.keys(content).map((path, index) => {
+            let mediaTypeData = path.split(';');
+            let value = content[path];
+            if (value &&
+              value.schema &&
+              value.schema.properties
+            ) {
+              tempResponse = value.schema.properties;
+            }
+            tempMediaType.push(mediaTypeData[0]);
+          });
+          setResponses(tempResponse);
+          let tempNestedResponses = [];
+          let responseDetails = {
+            name: 'Main Source',
+            responsesData: tempResponse,
+          }
+          tempNestedResponses.push(responseDetails);
+          setNestedResponses(tempNestedResponses);
+          setMediaType(tempMediaType);
+        }
+      }
     }
   }, [props]);
 
@@ -54,7 +80,7 @@ function Responses(props) {
   }
 
   function renderSourceRes(response) {
-    return <div><pre>{JSON.stringify(response, null, 2)}</pre></div>
+    return <div className={className}><pre>{JSON.stringify(response, null, 2)}</pre></div>
   }
 
   //Callback function for nested function
@@ -130,7 +156,7 @@ function Responses(props) {
     <ResponseItem responsesData={responses[responsesData]}
       name={responsesData} nestedFunction={nestedFunction} />;
 
-  const mediaTypeCreate = (responsesData) => <List>{responsesData}</List>;
+  const mediaTypeCreate = (responsesData) => <div className={s.listOuter}>{responsesData}</div>;
 
   const nestedLink = (responsesValue, index) =>
     <div>
@@ -150,45 +176,55 @@ function Responses(props) {
       }
     </div>;
 
-
   return (
     <div className={className}>
-      {responses && Object.keys(responses).length !== 0 &&
+      {responses && Object.keys(responses).length > 0 ?
         <div>
-          <Heading level="h1" className={s.responseHeader}>Responses</Heading>
-          <Heading level="h5" className={s.responseDesc}>Supported Media Types</Heading>
+          <div>
+            <Heading level="h1" className={s.responseHeader}>{props.requestBodies ? 'Request body' : 'Response'}</Heading>
+            <Heading level="h5" className={s.responseDesc}>Supported Media Types</Heading>
+          </div>
+
+          {/* Show mediaType */}
+          <div className={s.mediaModal}>
+            {mediaType && mediaType.map(mediaTypeCreate)}
+          </div>
+
+          <Heading level="h3" className={s.defaultHeader}>Default Response</Heading>
+          <Heading level="h5" className={s.defaultdesc}>The following table describes the default response for this task.</Heading>
+
+          {nestedResponses && nestedResponses.length > 0 &&
+            <div className={s.NestedFunctionView}>
+              <Heading level="h3" className={s.responseDesc}>Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3" className={s.responseDesc}>)</Heading>
+            </div>
+          }
+          <div className={s.responseType}>Type: {' '}<span className={s.textStyleSmall}>{responsesType}</span></div>
+
+          {/* Show the responsedetails */}
+          <div>
+            <div className={s.sourceView} onClick={() => onShowDefaultResSource()}>
+              {showDefaultResSource === false ?
+                <a className={s.sourceTitle}>Show Source</a> : <a className={s.sourceTitle}>Hide Source</a>
+              }
+            </div>
+            {showDefaultResSource === false ?
+              <div className={s.listModal}>{Object.keys(responses).map(create)}</div>
+              :
+              renderSourceRes(responses)
+            }
+          </div>
         </div>
-      }
-
-      {/* Show mediaType */}
-      <div className={s.mediaModal}>
-      {mediaType && mediaType.map(mediaTypeCreate)}
-      </div>
-
-      <Heading level="h3" className={s.defaultHeader}>Default Response</Heading>
-      <Heading level="h5" className={s.defaultdesc}>The following table describes the default response for this task.</Heading>
-
-      {nestedResponses && nestedResponses.length > 0 &&
-        <div className={s.NestedFunctionView}>
-          <Heading level="h3" className={s.responseDesc}>Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3" className={s.responseDesc}>)</Heading>
-          {/* <Heading level="h3" className={s.responseDesc}>Body( {nestedResponses && nestedResponses.map(nestedLink)} )</Heading> */}
-</div>
-      }
-<div className={s.responseType}>Type: {' '}{responsesType}</div>
-
-      {/* Show the responsedetails */}
-      <div>
-        <div onClick={() => onShowDefaultResSource()}>
-          {showDefaultResSource === false ?
-            <a>Show Source</a> : <a>Hide Source</a>
+        :
+        <div>
+          {responsesContent === '204' &&
+            <div>
+              <Heading level="h1" className={s.responseHeader}>Response</Heading>
+              <Heading level="h3" className={s.responseDesc}>204 Response</Heading>
+              <Heading level="h5" className={s.defaultHeader}>No content. This task does not return elements in the response body.</Heading>
+            </div>
           }
         </div>
-        {showDefaultResSource === false ?
-          <div className={s.listModal}>{Object.keys(responses).map(create)}</div>
-          :
-          renderSourceRes(responses)
-        }
-      </div>
+      }
     </div>
   );
 }

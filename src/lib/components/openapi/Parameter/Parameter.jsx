@@ -16,7 +16,7 @@ const defaultStyles = {
 
 
 function Parameter(props) {
-  const [ view, setView ] = useState(false);
+  const [view, setView] = useState(false);
   const className = classnames(s.parameter, props.className);
 
   let style = props.style || defaultStyles[props.in];
@@ -24,7 +24,7 @@ function Parameter(props) {
   if (props.description) {
     var description = (
       <LabelValueListItem label="Description">
-        <CommonMark>{ props.description }</CommonMark>
+        <CommonMark>{props.description}</CommonMark>
       </LabelValueListItem>
     );
   }
@@ -48,43 +48,46 @@ function Parameter(props) {
   function onClickButton(value) {
     let key = `${value.name} ${value.in}`;
     if (key !== view) {
-    setView(key);
+      setView(key);
     } else {
       setView('');
     }
   }
 
   let type = ''
-  if(props && props.schema){
+  if (props && props.schema) {
     type = props.schema.type
-  }else {
+  } else {
     type = props.type
   }
 
   return (
     <div className={className}>
       <List className={s.listItem}>
-      <a className={s.textView}
-            onClick={() => onClickButton(props)}>
-            <span className={s.titleName}>{ props.name + ':' + ' '+ type }</span>
-          </a>
-          {view === `${props.name} ${props.in}` &&
-            <div>
-        <LabelValueListItem label="Name">
-          { props.name }
-        </LabelValueListItem>
-
-        { description }
-
-        <LabelValueListItem label="Style">
-          { style }
-        </LabelValueListItem>
-
-        { explode }
-
-        { allowReserved }
-        </div>
-          }
+        <a className={s.textView}
+          onClick={() => onClickButton(props)}>
+          <span className={s.titleName}>{props.name + '(optional):' + ' ' + type}</span>
+        </a>
+        {view === `${props.name} ${props.in}` &&
+          <div>
+            <div className={s.textStyle}>
+              Name: <span className={s.textStyleSmall}>{props.name}</span>
+            </div>
+            <div className={s.textStyle}>
+              {props.description}
+            </div>
+            {props.explode &&
+              <div className={s.textStyle}>
+                Explode: <span className={s.textStyleSmall}>{props.explode}</span>
+              </div>
+            }
+            {props.allowReserved &&
+              <div className={s.textStyle}>
+                AllowReserved: <span className={s.textStyleSmall}>{props.allowReserved}</span>
+              </div>
+            }
+          </div>
+        }
 
       </List>
     </div>
@@ -102,7 +105,7 @@ Parameter.propTypes = {
   explode: PropTypes.bool,
   allowReserved: PropTypes.bool,
   schema: PropTypes.object,
-  examples:	PropTypes.array,
+  examples: PropTypes.array,
   example: PropTypes.object,
 
   content: PropTypes.object

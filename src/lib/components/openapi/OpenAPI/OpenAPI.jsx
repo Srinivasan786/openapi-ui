@@ -14,10 +14,10 @@ function OpenAPI(props) {
   const className = classnames(s.openAPI, props.className);
   return (
     <div className={className}>
-      <Info {...props.info} />
+      {/* <Info {...props.info} /> */}
       {props.externalDocs && !_.isEmpty(props.externalDocs) ? <ExternalDocumentation {...props.externalDocs} /> : null}
       <Security securityRequirements={props.security} />
-      <Paths paths={props.paths} />
+      <Paths paths={props.paths} tagTitle={props.tagTitle}/>
     </div>
   );
 }
