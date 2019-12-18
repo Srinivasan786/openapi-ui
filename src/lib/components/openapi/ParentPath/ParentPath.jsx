@@ -14,14 +14,13 @@ import Paths from 'lib/components/openapi/Paths';
 function ParentPath(props) {
   const className = classnames(s.ParentPath, props.className);
   const [paths, setPaths] = useState({});
-  const [tagArrayValue, setTagValue] = useState([]);
+  const [tagArrayValue, setTagArrayValue] = useState([]);
   const [subTagValue, setSubTagValue] = useState([]);
   const [tagArray, setTagArray] = useState([]);
   const [subTagArray, setSubTagArray] = useState([]);
   const [totalTagArray, setTotalsubTagArray] = useState([]);
-  const [parentTagCheck, setParentTagCheck] = useState(false);
+  const [parentTagCheck, setParentTagCheck] = useState(true);
   const [parentTag, setParentTag] = useState({});
-
 
   //set tag value and sub tag value
   useEffect(() => {
@@ -31,14 +30,13 @@ function ParentPath(props) {
       props.subCategory
     ) {
       setPaths(props.paths);
-      setTagValue(props.tagArray);
+      setTagArrayValue(props.tagArray);
       setSubTagValue(props.subCategory);
     }
   }, [props]);
 
   useEffect(() => {
     if (tagArrayValue) {
-
       Object.keys(paths).map((path, index) => {
         Object.keys(paths[path]).map((pathData, keyValue) => {
           if (paths[path][pathData] &&

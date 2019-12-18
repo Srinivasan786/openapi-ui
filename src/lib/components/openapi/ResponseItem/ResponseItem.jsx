@@ -57,7 +57,7 @@ function ResponseItem(props) {
   //To call the callback function
   function onClickButton(value) {
     if (props.nestedFunction) {
-      props.nestedFunction(value);
+      props.nestedFunction(value, props.index);
     }
   }
 

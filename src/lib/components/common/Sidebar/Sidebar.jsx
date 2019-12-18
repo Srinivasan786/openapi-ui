@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types'
 import classnames from 'classnames';
-import { Tooltip } from 'antd';
+import { Tooltip,Col,Row } from 'antd';
 import s from './Sidebar.css';
 import { connect } from 'react-redux';
 import OpenAPISelectors from 'selectors/OpenAPISelectors';
@@ -28,10 +28,13 @@ function Sidebar(props) {
   useEffect(() => {
     if (props &&
       props.sidebar &&
-      props.sidebar.tags.length !== 0 &&
-      props.tags
+      props.sidebar.tags.length > 0 &&
+      props.tags &&
+      props.isLoading === false
     ) {
-      setSidebar(props.sidebar);
+      if (props.sidebar.active === null) {
+        setSidebar(props.sidebar);
+      }
       setCurrentTag(props.sidebar.active);
       setTags(props.tags);
       if (props.sidebar.active && props.paths) {
@@ -44,6 +47,26 @@ function Sidebar(props) {
       }
     }
   }, [props]);
+
+  useEffect(() => {
+    if (props &&
+      props.sidebar &&
+      props.sidebar.tags.length > 0 &&
+      props.isLoading === false
+    ) {
+      let sidebarCheck = false;
+      props.sidebar.tags.map((res, index) => {
+        if (res.opened === true) {
+          sidebarCheck = true;
+        }
+      });
+      if (sidebarCheck === true) {
+        setSidebar(props.sidebar);
+      } else if (props.sidebar.active === currentTag && props.sidebar.tags !== sidebar.tags) {
+        setSidebar(props.sidebar);
+      }
+    }
+  }, [props.sidebar]);
 
   //To find the current active tag's path
   useEffect(() => {
@@ -200,8 +223,10 @@ function Sidebar(props) {
     });
   }
 
+
   return (
     <div className={className}>
+      <Col span={24}>
       <div className={s.expandAndCollapseView}>
         <Tooltip placement="bottom" title={'Expand All'}>
           <i className="fa fa-plus-square" id={s.expandAndCollapseIcon}
@@ -213,7 +238,7 @@ function Sidebar(props) {
         </Tooltip>
       </div>
       <ul className={"level1"} id={s.listText}>
-        {sidebar && sidebar.tags && sidebar.tags.map(tag => {
+        {sidebar && sidebar.tags && sidebar.tags.length > 0 && sidebar.tags.map(tag => {
           return <li key={tag.tag} className={currentTag === tag.tag ? s.nodeActive : s.node}>
             <TreeIcon hasChildren={tag.nodes.length > 0} opened={tag.opened} node={tag}></TreeIcon>
             <span className={s.label} onClick={(e) => loadApi(e, tag.tag)}> {tag.key} </span>
@@ -221,6 +246,7 @@ function Sidebar(props) {
           </li>
         })}
       </ul>
+      </Col>
     </div>
   );
 }
@@ -228,7 +254,8 @@ function Sidebar(props) {
 Sidebar.propTypes = {
   tags: PropTypes.array,
   sidebar: PropTypes.object,
-  paths: PropTypes.object.isRequired
+  paths: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool
 };
 
 
@@ -236,7 +263,8 @@ const mapStateToProps = (state) => {
   return {
     tags: OpenAPISelectors.getTags(state).toJS(),
     sidebar: OpenAPISelectors.getSidebar(state).toJS(),
-    paths: OpenAPISelectors.getPaths(state).toJS()
+    paths: OpenAPISelectors.getPaths(state).toJS(),
+    isLoading: OpenAPISelectors.isLoading(state),
   };
 };
 

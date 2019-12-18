@@ -1,6 +1,13 @@
 .Responses {
    padding-left: 10px;
 }
+.sourceCodeView {
+    border: 2px solid #dedad6;
+    padding-left: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    background: #ffffff;
+}
 .NestedFunctionView {
     display: flex;
     flex-direction: row;

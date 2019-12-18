@@ -6,10 +6,8 @@ import s from './Responses.css';
 import PropTypes from 'prop-types';
 import List from 'lib/components/common/List';
 
-
 function Responses(props) {
   const className = classnames(s.Responses, props.className);
-
 
   const [responses, setResponses] = useState({});
   const [mediaType, setMediaType] = useState([]);
@@ -17,6 +15,7 @@ function Responses(props) {
   const [nestedResponses, setNestedResponses] = useState([]);
   const [responsesType, setResponsesType] = useState('object');
   const [responsesContent, setResponsesContent] = useState('200');
+  const [resRef, setResRef] = useState([]);
 
   let successResponse = '200';
   let noContentResponse = '204';
@@ -75,20 +74,29 @@ function Responses(props) {
     }
   }, [props]);
 
+  //To set the ref value to corresponding div
+  function setRefValues(refValue) {
+    resRef[props.index] = refValue
+    setResRef(resRef)
+  }
+
   function onShowDefaultResSource() {
     setDefaultResSource(!showDefaultResSource)
   }
 
   function renderSourceRes(response) {
-    return <div className={className}><pre>{JSON.stringify(response, null, 2)}</pre></div>
+    return <div className={s.sourceCodeView}><pre>{JSON.stringify(response, null, 2)}</pre></div>
   }
 
   //Callback function for nested function
-  function nestedFunction(value) {
+  function nestedFunction(value, index) {
     if (value &&
       value.responsesData
     ) {
-      let responsesData = {}
+      window.scrollTo(0, resRef[index].offsetTop);
+      let  responsesData = {
+        value: 'No Data'
+      };
       Object.keys(value.responsesData).map((data, index) => {
         if (value.responsesData.type && value.responsesData.type === 'array') {
           if (value.responsesData[data] &&
@@ -100,6 +108,17 @@ function Responses(props) {
             value.responsesData[data][0] &&
             value.responsesData[data][0].properties) {
             responsesData = value.responsesData[data][0].properties;
+          } else if (value.responsesData &&
+            value.responsesData.properties) {
+            responsesData = value.responsesData.properties;
+          } else if (value.responsesData[data][0]) {
+            if (!value.responsesData[data][0].properties && 
+              value.responsesData.readOnly && 
+              value.responsesData.readOnly !== true) {
+              responsesData = {
+                value: 'No Data'
+              };
+            }
           }
         }
       });
@@ -121,7 +140,9 @@ function Responses(props) {
     if (value &&
       value.responsesData
     ) {
-      let responsesData = {}
+      let  responsesData = {
+        value: 'No Data'
+      };
       Object.keys(value.responsesData).map((data, index) => {
         if (value.responsesData.type && value.responsesData.type === 'array') {
           if (value.responsesData[data] &&
@@ -133,6 +154,9 @@ function Responses(props) {
             value.responsesData[data][0] &&
             value.responsesData[data][0].properties) {
             responsesData = value.responsesData[data][0].properties;
+          } else if (value.responsesData &&
+            value.responsesData.properties) {
+            responsesData = value.responsesData.properties;
           }
         }
       });
@@ -154,12 +178,13 @@ function Responses(props) {
 
   const create = (responsesData) =>
     <ResponseItem responsesData={responses[responsesData]}
-      name={responsesData} nestedFunction={nestedFunction} />;
+      name={responsesData} nestedFunction={nestedFunction} index={props.index} />;
 
   const mediaTypeCreate = (responsesData) => <div className={s.listOuter}>{responsesData}</div>;
 
+  let responsesRef = null;
   const nestedLink = (responsesValue, index) =>
-    <div>
+    <div ref={refValue => setRefValues(refValue)}>
       {nestedResponses.length === index + 1 ?
         <div className={s.NestedFunctionText}>
           {responsesValue.name}
@@ -202,15 +227,21 @@ function Responses(props) {
 
           {/* Show the responsedetails */}
           <div>
-            <div className={s.sourceView} onClick={() => onShowDefaultResSource()}>
-              {showDefaultResSource === false ?
-                <a className={s.sourceTitle}>Show Source</a> : <a className={s.sourceTitle}>Hide Source</a>
-              }
-            </div>
-            {showDefaultResSource === false ?
-              <div className={s.listModal}>{Object.keys(responses).map(create)}</div>
+            {responses.value && responses.value === 'No Data' ?
+              <div><Heading level="h5" className={s.defaultdesc}>No data available</Heading></div>
               :
-              renderSourceRes(responses)
+              <div>
+                <div className={s.sourceView} onClick={() => onShowDefaultResSource()}>
+                  {showDefaultResSource === false ?
+                    <a className={s.sourceTitle}>Show Source</a> : <a className={s.sourceTitle}>Hide Source</a>
+                  }
+                </div>
+                {showDefaultResSource === false ?
+                  <div className={s.listModal}>{Object.keys(responses).map(create)}</div>
+                  :
+                  renderSourceRes(responses)
+                }
+              </div>
             }
           </div>
         </div>

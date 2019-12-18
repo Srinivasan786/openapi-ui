@@ -18,22 +18,32 @@ const sRef = []
 const rRef = []
 const resRef = []
 
-function handleMenuClick(e, index) {
-  if (e.key === '1') {
-    window.scrollTo(0, pRef[index].offsetTop);
-  } else if (e.key === '2') {
-    window.scrollTo(0, sRef[index].offsetTop);
-  } else if (e.key === '3') {
-    window.scrollTo(0, rRef[index].offsetTop);
-  } else if (e.key === '4') {
-    window.scrollTo(0, resRef[index].offsetTop);
-  }
-}
-
 function Operation(props) {
   const className = classnames(s.operation, props.className);
   const [showSource, setShowSource] = useState(false)
-  const [showResSource, setResShowSource] = useState(false)
+  const [showResSource, setResShowSource] = useState(false);
+  const [pRef, setPRef] = useState([]);
+  const [sRef, setSRef] = useState([]);
+  const [rRef, setRRef] = useState([]);
+  const [resRef, setResRef] = useState([]);
+
+  function handleMenuClick(e, index) {
+    if (e.key === '1') {
+      window.scrollTo(0, pRef[index].offsetTop);
+    } else if (e.key === '2') {
+      window.scrollTo(0, sRef[index].offsetTop);
+    } else if (e.key === '3') {
+      window.scrollTo(0, rRef[index].offsetTop);
+    } else if (e.key === '4') {
+      window.scrollTo(0, resRef[index].offsetTop);
+    }
+  }
+
+  //To set the ref value to corresponding div
+  function setRefValues(refValue, refArray, setState) {
+    refArray[props.index] = refValue
+    setState(refArray)
+  }
 
 
   const headerClassName = classnames(s.header, {
@@ -109,7 +119,7 @@ function Operation(props) {
             </header>
           </div>
           <Dropdown overlay={menu} className={s.jumpButton}>
-            <Button style={{ display: 'flex', justifyContent: 'space-between' }} >
+            <Button style={{ display: 'flex', justifyContent: 'space-between', maxHeight: '40px' }} >
               <span className={s.jumpText}>Jump To </span> <Icon type="down" />
             </Button>
           </Dropdown>
@@ -124,12 +134,12 @@ function Operation(props) {
       }
 
       {props.parameters &&
-        <div ref={refElem => pRef[props.index] = refElem}>
+        <div ref={refElem => setRefValues(refElem, pRef, setPRef)}>
           <Parameters parameters={props.parameters} />
         </div>
       }
       {props.security &&
-        <div ref={refElem => sRef[props.index] = refElem}>
+        <div ref={refElem => setRefValues(refElem, sRef, setSRef)}>
           <Security
             headingLevel="h5"
             securityRequirements={props.security}
@@ -138,14 +148,14 @@ function Operation(props) {
       }
 
       {props.requestBody &&
-        <div ref={refElem => rRef[props.index] = refElem}>
+        <div ref={refElem => setRefValues(refElem, rRef, setRRef)}>
           {/* <RequestBodies requestBodies={requestBody} /> */}
-          <Responses requestBodies={props.requestBody} />
+          <Responses requestBodies={props.requestBody} index={props.index} />
         </div>
       }
       {props.responses &&
-        <div ref={refElem => resRef[props.index] = refElem}>
-          <Responses responses={props.responses} />
+        <div ref={refElem => setRefValues(refElem, resRef, setResRef)}>
+          <Responses responses={props.responses} index={props.index} />
         </div>
       }
 
