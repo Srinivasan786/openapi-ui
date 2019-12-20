@@ -10,13 +10,16 @@ import { connect } from "react-redux";
 
 function PreviousNextButton(props) {
 
-  const [count, setCount] = useState(0);
   const [activeTag, setActiveTag] = useState('');
   const [tags, setTags] = useState([]);
   const [prevPath, setPrevPath] = useState('');
   const [currentPath, setCurrentPath] = useState('');
   const [nextPath, setNextPath] = useState('');
-  const [tagStartName, setTagStartName] = useState('');
+  const [prevId, setPrevId] = useState('');
+  const [currentId, setCurrentId] = useState('');
+  const [nextId, setNextId] = useState('');
+  const [currentTagArray, setCurrentTagArray] = useState([]);
+  const [currentPathValue, setCurrentPathValue] = useState([]);
 
   let className = classnames(
     s.PreviousNextButton,
@@ -35,20 +38,87 @@ function PreviousNextButton(props) {
       replacedTag = replacedTag.replace(/%20/g, ' ');
       setActiveTag(replacedTag);
       setTags(props.tags);
-      let firstPath = (Object.keys(props.paths)[0]).split('/');
-      setTagStartName(firstPath[1]);
     }
   }, [props]);
 
+  //set current id
+  useEffect(() => {
+    if (props.currentTagIdSidebar &&
+      props.currentTagIdSidebar !== activeTag
+    ) {
+      setCurrentId(props.currentTagIdSidebar);
+      if (props.currentIdPrevNext) {
+        props.currentIdPrevNext(props.currentTagIdSidebar);
+      }
+    }
+  }, [props.currentTagIdSidebar]);
+
+
+  useEffect(() => {
+    if (currentId) {
+      findPath(props.sidebar.tags);
+    }
+  }, [currentId]);
+
+  function findPath(tagArray) {
+    let value = tagArray.map((res, index) => {
+      if (res.randomId === currentId) {
+        let tempArray = [];
+        tempArray = res.value ? res.value : []
+        tempArray.push(res.key);
+        res.value = tempArray;
+        setCurrentTagArray(res.value);
+      } else if (res.nodes.length > 0) {
+        let tempArray = [];
+        tempArray = res.value ? res.value : []
+        tempArray.push(res.key);
+        res.value = tempArray
+        findPathValue(res.nodes, res.value)
+      }
+      return res;
+    });
+  }
+
+  //Loop that for expand the current selecting tag data
+  function findPathValue(tagArray, keyArray) {
+    // let keyValueArray = keyArray;
+    tagArray.map((res, index) => {
+      if (res.randomId === currentId) {
+        let tempArray = [];
+        tempArray = keyArray ? keyArray : []
+        tempArray.push(res.key);
+        res.value = tempArray;
+        setCurrentTagArray(res.value);
+      } else if (res.nodes.length > 0) {
+        let tempArray = [];
+        tempArray = keyArray ? keyArray : []
+        tempArray.push(res.key);
+        res.value = tempArray
+        findPathValue(res.nodes, res.value)
+      }
+      return res;
+    });
+  }
+
+  useEffect(() => {
+    if (currentTagArray) {
+      let tagArray = activeTag.split('/');
+      let indexValue = _.findIndex(currentTagArray, function (o) { return o == tagArray[tagArray.length - 1]; });
+      let currentSlicedArray = currentTagArray.slice(0, indexValue + 1);
+      setCurrentPathValue(currentSlicedArray);
+    }
+  }, [currentTagArray, activeTag]);
+
   //To find the current active tag's path
   useEffect(() => {
-    if (activeTag && tags) {
+    if (currentPathValue && currentPathValue.length > 0 && tags) {
       let currentIndex = 0;
       let prevPathValue = '';
       let nextPathValue = '';
       tags.map((res, index) => {
-        let tagName = res.name.replace(/\s+/g, '');
-        if (_.startsWith(tagName.toLowerCase(), tagStartName.toLowerCase()) && _.endsWith(res.name, activeTag)) {
+        if (_.startsWith(res.name, currentPathValue[0]) &&
+          _.endsWith(res.name, currentPathValue[currentPathValue.length - 1]) &&
+          _.endsWith(res.name, activeTag)) {
           setCurrentPath(res.name);
           currentIndex = index;
         }
@@ -61,14 +131,14 @@ function PreviousNextButton(props) {
       }
 
       //To find the tag values
-      findTag(prevPathValue, setPrevPath);
-      findTag(nextPathValue, setNextPath);
+      findTag(prevPathValue, setPrevPath, setPrevId);
+      findTag(nextPathValue, setNextPath, setNextId);
     }
-  }, [activeTag]);
+  }, [currentPathValue]);
 
 
   //To find the current selecting tag data
-  function findTag(path, setState) {
+  function findTag(path, setState, setId) {
     if (path) {
       let count = 0;
       let pathArray = path.split('/');
@@ -76,8 +146,9 @@ function PreviousNextButton(props) {
         if (res.key === pathArray[count]) {
           if (count + 1 === pathArray.length) {
             setState(res.tag);
+            setId(res.randomId);
           } else {
-            findTagValue(res.nodes, pathArray, count + 1, setState);
+            findTagValue(res.nodes, pathArray, count + 1, setState, setId);
           }
         }
       });
@@ -86,22 +157,26 @@ function PreviousNextButton(props) {
 
 
   //Loop that for find the current selecting tag data
-  function findTagValue(data, pathArray, countValue, setState) {
+  function findTagValue(data, pathArray, countValue, setState, setId) {
     let count = countValue;
     data.map((res, index) => {
       if (res.key === pathArray[count]) {
         if (count + 1 === pathArray.length) {
           setState(res.tag);
+          setId(res.randomId);
         } else {
-          findTagValue(res.nodes, pathArray, count + 1, setState);
+          findTagValue(res.nodes, pathArray, count + 1, setState, setId);
         }
       }
     });
   }
 
   // To call load function
-  function loadApi(e, tag) {
-    if (tag) {
+  function loadApi(e, tag, id) {
+    if (tag && id) {
+      if (props.currentIdPrevNext) {
+        props.currentIdPrevNext(id);
+      }
       if (e !== '') {
         e.preventDefault();
         e.stopPropagation();
@@ -118,7 +193,7 @@ function PreviousNextButton(props) {
         <Button
           type="primary"
           disabled={prevPath ? false : true}
-          onClick={(e) => loadApi(e, prevPath)}
+          onClick={(e) => loadApi(e, prevPath, prevId)}
           className={s.previousButton}
         >
           <Icon type="left" className={s.iconView} />
@@ -126,9 +201,9 @@ function PreviousNextButton(props) {
         <Button
           type="primary"
           disabled={nextPath ? false : true}
-          onClick={(e) => loadApi(e, nextPath)}
+          onClick={(e) => loadApi(e, nextPath, nextId)}
           className={s.nextButton}
-          >
+        >
           <Icon type="right" className={s.iconView} />
         </Button>
         {/* </div> */}

@@ -29,6 +29,8 @@ function App(props) {
   const [tagTitle, setTagTitle] = useState('');
   const [subCategory, setSubCategory] = useState([]);
   const [scrollTopHide, setScrollTopHide] = useState(false);
+  const [currentTagIdSidebar, setCurrentTagIdSidebar] = useState('');
+  const [currentTagIdPrevNext, setCurrentTagIdPrevNext] = useState('');
 
 
   useEffect(() => {
@@ -139,6 +141,20 @@ function App(props) {
     }
   }
 
+  //call back function for set current tag's id for sidebar
+  function currentIdSideBar(value) {
+    if (value) {
+      setCurrentTagIdSidebar(value);
+    }
+  }
+
+  //call back function for set current tag's id for previous next
+  function currentIdPrevNext(value) {
+    if (value) {
+      setCurrentTagIdPrevNext(value);
+    }
+  }
+
 
   return (
     <div className={s.app}>
@@ -153,6 +169,8 @@ function App(props) {
       {sidebarHide === true &&
         <div className={s.sidebar}>
           <Sidebar onSideBarChange={onSidebarChange}
+            currentIdSideBar={currentIdSideBar}
+            currentTagIdPrevNext={currentTagIdPrevNext}
           />
         </div>
       }
@@ -169,6 +187,8 @@ function App(props) {
                   <div>
                     <PreviousNextButton
                       activeTag={props.sidebar.active}
+                      currentIdPrevNext={currentIdPrevNext}
+                      currentTagIdSidebar={currentTagIdSidebar}
                     />
                     <ParentPath
                       info={props.info}
@@ -183,6 +203,8 @@ function App(props) {
                   <div>
                     <PreviousNextButton
                       activeTag={props.sidebar.active}
+                      currentIdPrevNext={currentIdPrevNext}
+                      currentTagIdSidebar={currentTagIdSidebar}
                     />
                     {/* Open API UI */}
                     <OpenAPI
