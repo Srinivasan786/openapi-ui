@@ -116,8 +116,9 @@ function PreviousNextButton(props) {
       let prevPathValue = '';
       let nextPathValue = '';
       tags.map((res, index) => {
-        if (_.startsWith(res.name, currentPathValue[0]) &&
-          _.endsWith(res.name, currentPathValue[currentPathValue.length - 1]) &&
+        let pathArray = res.name.split('/');
+        if (pathArray[0] === currentPathValue[0] &&
+          pathArray[pathArray.length - 1] === currentPathValue[currentPathValue.length - 1] &&
           _.endsWith(res.name, activeTag)) {
           setCurrentPath(res.name);
           currentIndex = index;
@@ -183,7 +184,7 @@ function PreviousNextButton(props) {
       }
 
       return store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1', tag));
-      // return store.dispatch(OpenAPIActions.load('http://1984d848.ngrok.io/api/logistics1', tag));
+      // return store.dispatch(OpenAPIActions.load('http://af34d848.ngrok.io/api/logistics1', tag));
     }
   }
 

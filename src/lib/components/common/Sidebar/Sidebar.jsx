@@ -131,8 +131,9 @@ function Sidebar(props) {
     if (activeTag && currentPathValue && currentPathValue.length > 0 && tags) {
       let currentPath = ''
       tags.map((res, index) => {
-        if (_.startsWith(res.name, currentPathValue[0]) &&
-          _.endsWith(res.name, currentPathValue[currentPathValue.length - 1]) &&
+        let pathArray = res.name.split('/');
+        if (pathArray[0] === currentPathValue[0] &&
+          pathArray[pathArray.length - 1] === currentPathValue[currentPathValue.length - 1] &&
           _.endsWith(res.name, activeTag)) {
           currentPath = res.name;
         }
@@ -194,7 +195,7 @@ function Sidebar(props) {
         props.currentIdSideBar(value.randomId);
       }
       return store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1', value.tag))
-      // return store.dispatch(OpenAPIActions.load('http://1984d848.ngrok.io/api/logistics1', tag))
+      // return store.dispatch(OpenAPIActions.load('http://af34d848.ngrok.io/api/logistics1', value.tag))
     }
 
   }
@@ -203,8 +204,8 @@ function Sidebar(props) {
     e.preventDefault();
     e.stopPropagation();
     let key = ''
-    if (tag && tag.hasOwnProperty('key')) {
-      key = tag.key
+    if (tag && tag.hasOwnProperty('randomId')) {
+      key = tag.randomId
     } else {
       key = tag
     }
@@ -231,7 +232,7 @@ function Sidebar(props) {
     } else {
       return (<ul className={s["level" + level]}>
         {nodes.map((node, index) => {
-          return <li key={node.tag} className={currentTag === node.tag ? s.nodeActive : s.node}>
+          return <li key={node.tag} className={currentActiveId === node.randomId ? s.nodeActive : s.node}>
             <TreeIcon hasChildren={node.nodes.length > 0} opened={node.opened} node={node} key={index}></TreeIcon> <span
               className={s.label} onClick={(e) => loadApi(e, node)}> {node.key} </span>
             {node.opened ? <ChildNode nodes={node.nodes} level={level + 1}></ChildNode> : null}
@@ -307,7 +308,7 @@ function Sidebar(props) {
         </div>
         <ul className={"level1"} id={s.listText}>
           {sidebar && sidebar.tags && sidebar.tags.length > 0 && sidebar.tags.map((tag, index) => {
-            return <li key={tag.tag} className={currentTag === tag.tag ? s.nodeActive : s.node}>
+            return <li key={tag.tag} className={currentActiveId === tag.randomId ? s.nodeActive : s.node}>
               <TreeIcon hasChildren={tag.nodes.length > 0} opened={tag.opened} node={tag} key={index}></TreeIcon>
               <span className={s.label} onClick={(e) => loadApi(e, tag)}> {tag.key} </span>
               {tag.opened ? <ChildNode nodes={tag.nodes} level={level + 1}></ChildNode> : null}

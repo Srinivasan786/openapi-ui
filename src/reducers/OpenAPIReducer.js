@@ -53,7 +53,7 @@ export default handleActions({
         let tags = state.getIn(['sidebar', 'tags']).toJS();
 
         function checkToggle(t) {
-            if (t.key === action.payload) {
+            if (t.randomId === action.payload) {
                 t.opened = !t.opened;
             } else if (t.nodes.length > 0) {
                 t.nodes.map(checkToggle);

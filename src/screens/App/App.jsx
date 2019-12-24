@@ -49,7 +49,7 @@ function App(props) {
   function loadApi(tag) {
     if (tag) {
       return store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1', tag));
-      // return store.dispatch(OpenAPIActions.load('http://1984d848.ngrok.io/api/logistics1', tag));
+      // return store.dispatch(OpenAPIActions.load('http://af34d848.ngrok.io/api/logistics1', tag));
     }
   }
 
