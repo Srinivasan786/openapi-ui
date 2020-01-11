@@ -16,7 +16,4 @@ const app = (
 
 ReactDOM.render(app, document.getElementsByClassName('main')[0]);
 
-// Load spec & tags
-// store.dispatch(OpenAPIActions.loadTags('http://localhost:4000/tags/petstore'));
-store.dispatch(OpenAPIActions.loadTags('http://localhost:4000/tags/logistics1'));
-// store.dispatch(OpenAPIActions.loadTags('http://af34d848.ngrok.io/tags/logistics1'));
+store.dispatch(OpenAPIActions.loadTags());

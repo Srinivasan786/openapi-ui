@@ -36,7 +36,7 @@ function ParentPath(props) {
   }, [props]);
 
   useEffect(() => {
-    if (tagArrayValue) {
+    if (tagArrayValue && tagArrayValue.length > 0) {
       Object.keys(paths).map((path, index) => {
         Object.keys(paths[path]).map((pathData, keyValue) => {
           if (paths[path][pathData] &&
@@ -61,6 +61,7 @@ function ParentPath(props) {
             });
 
             //To get without childnode data
+            if (subTagValue && subTagValue.length > 0) {
             subTagValue.map((res, keys) => {
               let replacedTagSub = res.tag.replace(/%2B/g, '/');
               let replacedTagTempSub = replacedTagSub.replace(/%20/g, ' ');
@@ -76,6 +77,7 @@ function ParentPath(props) {
               }
             });
           }
+          }
         });
       });
       setSubTagArray(subTagValue);
@@ -87,14 +89,16 @@ function ParentPath(props) {
   }, [tagArrayValue, subTagValue]);
 
   useEffect(() => {
-    if (totalTagArray) {
+    if (totalTagArray && totalTagArray.length > 0) {
       let parantTagPath = [];
       let parentMethodPath = {};
       let pathValue = [];
       totalTagArray.map((res, key) => {
-        res.methodArray.map((value, keys) => {
-          pathValue.push(value.path);
-        });
+        if (res.methodArray && res.methodArray.length > 0) {
+          res.methodArray.map((value, keys) => {
+            pathValue.push(value.path);
+          });
+        }
       });
       Object.keys(paths).map((path, index) => {
         Object.keys(paths[path]).map((pathData, keyValue) => {
@@ -102,12 +106,14 @@ function ParentPath(props) {
             paths[path][pathData].length === undefined &&
             Object.keys(paths[path][pathData]).length > 0) {
 
-            let count = 0
+            let count = 0;
+            if (pathValue && pathValue.length > 0) {
             pathValue.map((res, keyValues) => {
               if (res !== path) {
                 count = count + 1
               }
             });
+          }
             if (count === pathValue.length) {
               let tagValue = {
                 method: pathData,
@@ -133,11 +139,13 @@ function ParentPath(props) {
 
   function compareTwoTags(pathTag, tagArray) {
     let count = 0;
+    if (tagArray && tagArray.length > 0) {
     tagArray.map((res, index) => {
       if (_.includes(pathTag, res)) {
         count = count + 1;
       }
     });
+  }
     if (count === tagArray.length) {
       return true;
     } else {
@@ -147,7 +155,7 @@ function ParentPath(props) {
 
 
   function renderItem(data) {
-    if (data) {
+    if (data && data.length > 0) {
       return (
         data.map((res, index) =>
           <div key={index} className={s.listView}  >
@@ -180,10 +188,10 @@ function ParentPath(props) {
   }
 
   function renderMethod(data) {
-    if (data) {
+    if (data && data.length > 0) {
       return (
         data.map((res, index) =>
-          <div>
+          <div key={index}>
             <ParentPathItem
               methodData={res}
             />
@@ -202,8 +210,7 @@ function ParentPath(props) {
         e.preventDefault();
         e.stopPropagation();
       }
-      return store.dispatch(OpenAPIActions.load('http://localhost:4000/api/logistics1', data.tag))
-      // return store.dispatch(OpenAPIActions.load('http://af34d848.ngrok.io/api/logistics1', data.tag))
+      return store.dispatch(OpenAPIActions.load(data.tag));
     } else {
       setParentTagCheck(!parentTagCheck);
     }
