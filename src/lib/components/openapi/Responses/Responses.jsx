@@ -178,13 +178,13 @@ function Responses(props) {
 
   const create = (responsesData) =>
     <ResponseItem responsesData={responses[responsesData]}
-      name={responsesData} nestedFunction={nestedFunction} index={props.index} />;
+      name={responsesData} nestedFunction={nestedFunction} key={`${responsesData} ${props.index}`} index={props.index} />;
 
-  const mediaTypeCreate = (responsesData) => <div className={s.listOuter}>{responsesData}</div>;
+  const mediaTypeCreate = (responsesData, index) => <div className={s.listOuter} key={index}>{responsesData}</div>;
 
   let responsesRef = null;
   const nestedLink = (responsesValue, index) =>
-    <div ref={refValue => setRefValues(refValue)}>
+    <div ref={refValue => setRefValues(refValue)} key={index}>
       {nestedResponses.length === index + 1 ?
         <div className={s.NestedFunctionText}>
           {responsesValue.name}
