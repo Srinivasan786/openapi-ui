@@ -119,19 +119,15 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
   font-size: 16px;
   font-weight: bold;
   margin-top: 0px !important;
+  padding-right: 10px;
 }
 .buttonContainar{
   display: flex;
   justify-content: space-between;
   margin-bottom: 8px;
+  width: 100%;
 }
 .jumpButton{
-  /* margin-top: 13px !important;
-  margin-top: 15px !important; */
-    padding-top: 12px !important;
-    padding-bottom: 11px !important;
-    padding-left: 23px !important;
-    padding-right: 15px !important;
     border-radius: 4px !important;
     box-shadow: 0 1px 2px 0 rgba(29, 29, 29, 0.3) !important;
     background-color: #ffffff !important;
@@ -146,8 +142,13 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
     color: #1a1816 !important;
     border: none !important;
     width: 160px !important;
-    height: auto !important;
- 
+    height: 100% !important;    
+}
+.jumpButton > div {
+  border: none !important;
+  padding-left: 10px !important;
+  padding-top: 12px !important;
+  padding-bottom: 11px !important;
 }
 .inner{
   padding-left: 22px !important;
@@ -181,4 +182,10 @@ $operation-header-background-trace: color($operation-color-trace lightness(+35%)
 .pathView{
   width: 76%;
   word-wrap: break-word;
+}
+@media(max-width:992px){
+  .pathView{
+    width: 55%;
+    word-wrap: break-word;
+  }
 }

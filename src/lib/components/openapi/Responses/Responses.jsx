@@ -94,7 +94,7 @@ function Responses(props) {
       value.responsesData
     ) {
       window.scrollTo(0, resRef[index].offsetTop);
-      let  responsesData = {
+      let responsesData = {
         value: 'No Data'
       };
       Object.keys(value.responsesData).map((data, index) => {
@@ -112,8 +112,8 @@ function Responses(props) {
             value.responsesData.properties) {
             responsesData = value.responsesData.properties;
           } else if (value.responsesData[data][0]) {
-            if (!value.responsesData[data][0].properties && 
-              value.responsesData.readOnly && 
+            if (!value.responsesData[data][0].properties &&
+              value.responsesData.readOnly &&
               value.responsesData.readOnly !== true) {
               responsesData = {
                 value: 'No Data'
@@ -140,7 +140,7 @@ function Responses(props) {
     if (value &&
       value.responsesData
     ) {
-      let  responsesData = {
+      let responsesData = {
         value: 'No Data'
       };
       Object.keys(value.responsesData).map((data, index) => {
@@ -190,13 +190,13 @@ function Responses(props) {
           {responsesValue.name}
         </div>
         :
-        <div className={s.NestedFunctionView}>
+        <div className={nestedResponses.length > 1 ? s.NestedFunctionView : s.NestedFunctionViewActive}>
           <div className={s.NestedFunction} onClick={() => selectResponse(responsesValue)}>
             {responsesValue.name}
+            <span className={s.NestedFunctionText}>
+              >
+        </span>
           </div>
-          <div className={s.NestedFunctionText}>
-            >
-        </div>
         </div>
       }
     </div>;
@@ -219,7 +219,7 @@ function Responses(props) {
           <Heading level="h5" className={s.defaultdesc}>The following table describes the default response for this task.</Heading>
 
           {nestedResponses && nestedResponses.length > 0 &&
-            <div className={s.NestedFunctionView}>
+            <div className={nestedResponses.length > 1 ? s.NestedFunctionView : s.NestedFunctionViewActive}>
               <Heading level="h3" className={s.responseDesc}>Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3" className={s.responseDesc}>)</Heading>
             </div>
           }

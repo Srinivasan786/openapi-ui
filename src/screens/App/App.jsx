@@ -29,6 +29,7 @@ function App(props) {
   const [tagTitle, setTagTitle] = useState('');
   const [subCategory, setSubCategory] = useState([]);
   const [scrollTopHide, setScrollTopHide] = useState(false);
+  const [mobileWidthView, setMobileWidthView] = useState(false);
   const [currentTagIdSidebar, setCurrentTagIdSidebar] = useState('');
   const [currentTagIdPrevNext, setCurrentTagIdPrevNext] = useState('');
 
@@ -129,6 +130,41 @@ function App(props) {
     setSideBarNode(value)
   }
 
+  //When the user use mobile view below 767px from the width, hide body view
+  const size = useWindowSize();
+
+  let mobileView = false;
+  if (size.width <= 550) {
+    mobileView = true;
+  }
+  function useWindowSize() {
+    const isClient = typeof window === 'object';
+
+    function getSize() {
+      return {
+        width: isClient ? window.innerWidth : undefined,
+        height: isClient ? window.innerHeight : undefined
+      };
+    }
+
+    const [windowSize, setWindowSize] = useState(getSize);
+
+    useEffect(() => {
+      if (!isClient) {
+        return false;
+      }
+
+      function handleResize() {
+        setWindowSize(getSize());
+      }
+
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []); // Empty array ensures that effect is only run on mount and unmount
+
+    return windowSize;
+  }
+
   // When the user scrolls down 20px from the top of the document, show the button
   window.onscroll = function () { scrollFunction() };
 
@@ -150,7 +186,19 @@ function App(props) {
   //call back function for set current tag's id for previous next
   function currentIdPrevNext(value) {
     if (value) {
+      if (mobileView === true) {
+        setCurrentTagIdSidebar(value);
+      } else {
+        setCurrentTagIdSidebar('');
+      }
       setCurrentTagIdPrevNext(value);
+    }
+  }
+
+  //call back function for mobile view
+  function checkView() {
+    if (mobileView === true) {
+      setMobileWidthView(!mobileWidthView);
     }
   }
 
@@ -162,65 +210,75 @@ function App(props) {
           <ScrollToTop scrollStepInPx="50" delayInMs="16.66" />
         </div>
       }
-      <div className={s.SidebarIcons}>
-        <SidebarIcons onClickSideBar={onClickSideBar} />
-      </div>
-      {sidebarHide === true &&
+      {mobileView === false &&
+        <div className={s.SidebarIcons}>
+          <SidebarIcons onClickSideBar={onClickSideBar} />
+        </div>
+      }
+      {sidebarHide === true && (mobileView === false || mobileWidthView === false) &&
         <div className={s.sidebar}>
           <Sidebar onSideBarChange={onSidebarChange}
             currentIdSideBar={currentIdSideBar}
             currentTagIdPrevNext={currentTagIdPrevNext}
+            checkView={checkView}
+            mobileView={mobileView}
           />
         </div>
       }
-      <div className={sidebarHide === true ? s.body : s.bodyActive}>
-        {isLoading === true ?
-          <div className={s.loader}>
-            <Spin tip="Loading..." size="large" />
-          </div>
-          :
-          <div>
-            {Object.keys(paths).length === 0 ? <h2> Click on sidebar to load section documentation </h2> :
-              <div>
-                {tagArray.length > 0 ?
-                  <div>
-                    <PreviousNextButton
-                      activeTag={props.sidebar.active}
-                      currentIdPrevNext={currentIdPrevNext}
-                      currentTagIdSidebar={currentTagIdSidebar}
-                    />
-                    <ParentPath
-                      info={props.info}
-                      paths={paths}
-                      tagArray={tagArray}
-                      tagTitle={tagTitle}
-                      subCategory={subCategory}
-                      sidebar={props.sidebar}
-                    />
-                  </div>
-                  :
-                  <div>
-                    <PreviousNextButton
-                      activeTag={props.sidebar.active}
-                      currentIdPrevNext={currentIdPrevNext}
-                      currentTagIdSidebar={currentTagIdSidebar}
-                    />
-                    {/* Open API UI */}
-                    <OpenAPI
-                      info={props.info}
-                      servers={props.servers}
-                      paths={props.paths}
-                      security={props.security}
-                      externalDocs={props.externalDocs}
-                      tagTitle={tagTitle}
-                    />
-                  </div>
-                }
-              </div>
-            }
-          </div>
-        }
-      </div>
+      {(mobileView === false || mobileWidthView === true) &&
+        <div className={sidebarHide === true ? s.body : s.bodyActive}>
+          {isLoading === true ?
+            <div className={s.loader}>
+              <Spin tip="Loading..." size="large" />
+            </div>
+            :
+            <div>
+              {Object.keys(paths).length === 0 ? <h2> Click on sidebar to load section documentation </h2> :
+                <div>
+                  {tagArray.length > 0 ?
+                    <div>
+                      <PreviousNextButton
+                        activeTag={props.sidebar.active}
+                        currentIdPrevNext={currentIdPrevNext}
+                        currentTagIdSidebar={currentTagIdSidebar}
+                        checkView={checkView}
+                        mobileView={mobileView}
+                      />
+                      <ParentPath
+                        info={props.info}
+                        paths={paths}
+                        tagArray={tagArray}
+                        tagTitle={tagTitle}
+                        subCategory={subCategory}
+                        sidebar={props.sidebar}
+                      />
+                    </div>
+                    :
+                    <div>
+                      <PreviousNextButton
+                        activeTag={props.sidebar.active}
+                        currentIdPrevNext={currentIdPrevNext}
+                        currentTagIdSidebar={currentTagIdSidebar}
+                        checkView={checkView}
+                        mobileView={mobileView}
+                      />
+                      {/* Open API UI */}
+                      <OpenAPI
+                        info={props.info}
+                        servers={props.servers}
+                        paths={props.paths}
+                        security={props.security}
+                        externalDocs={props.externalDocs}
+                        tagTitle={tagTitle}
+                      />
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
     </div>
   );
 

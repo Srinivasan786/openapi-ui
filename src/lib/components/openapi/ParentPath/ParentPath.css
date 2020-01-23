@@ -48,3 +48,9 @@
     padding-top: 10px;
     background: #ffffff;
   }
+  @media(max-width:992px){
+    .listView{
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+  }

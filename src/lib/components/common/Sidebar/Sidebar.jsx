@@ -54,7 +54,7 @@ function Sidebar(props) {
       props.sidebar.tags &&
       props.sidebar.tags.length > 0
     ) {
-      if (currentActiveId === '') {
+      if (currentActiveId === '' && props.mobileView === false) {
         setCurrentActiveId(props.sidebar.tags[0].randomId);
         if (props.currentIdSideBar) {
           props.currentIdSideBar(props.sidebar.tags[0].randomId);
@@ -66,7 +66,7 @@ function Sidebar(props) {
         }
       }
     }
-  }, [currentActiveId, props.sidebar, props.currentTagIdPrevNext]);
+  }, [currentActiveId, props.sidebar, props.currentTagIdPrevNext, props.mobileView]);
 
   useEffect(() => {
     if (currentActiveId) {
@@ -193,6 +193,9 @@ function Sidebar(props) {
     if (value) {
       if (props.currentIdSideBar) {
         props.currentIdSideBar(value.randomId);
+      }
+      if (props.checkView) {
+        props.checkView();
       }
       return store.dispatch(OpenAPIActions.load(value.tag))
     }

@@ -46,7 +46,7 @@ function Parameters(props) {
   }
 
   return (
-    <div style={{marginLeft: 10}}>
+    <div id="request-content-view">
       <Heading level="h1" className={s.headingParameter}>Request</Heading>
       {pathParameters.length > 0 &&
       <div>

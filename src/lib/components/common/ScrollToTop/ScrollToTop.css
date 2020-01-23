@@ -18,6 +18,7 @@
     bottom: 10px;
     right: 10px;
     border-radius: 5px;
+    z-index: 9999;
 }
 .topButton:hover{
     background-color: #f3f1ef !important;
@@ -26,5 +27,5 @@
     color: #1a1816 !important;
     line-height: 44px;
     font-size: 16px !important;
-    /* font-weight: bolder; */
+    z-index: 9999;
 }

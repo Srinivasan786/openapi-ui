@@ -15,6 +15,7 @@ function Info(props) {
       <Heading
         id="info"
         level="h1"
+        style={{lineHeight:1}}
       >
         { props.title }
       </Heading>

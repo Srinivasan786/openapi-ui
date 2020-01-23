@@ -8,7 +8,11 @@
     margin-top: 10px;
     background: #ffffff;
 }
-.NestedFunctionView {
+.NestedFunctionView{
+    display: flex;
+    flex-direction: row;
+}
+.NestedFunctionViewActive{
     display: flex;
     flex-direction: row;
 }
@@ -73,7 +77,9 @@
     margin-top: 10px;
     font-size: 16px;
     color: black;
-    background: #ffffff
+    background: #ffffff;
+    width: 100% !important;
+    word-wrap:break-word !important;
 }
 .responseHeader {
     font-size: 26px !important;
@@ -130,8 +136,22 @@
     padding-top: 9px;
     padding-bottom: 11px;
     /* padding-left: 13px; */
-    margin-bottom: -1px;
+    /* margin-bottom: -1px; */
     }
     /* .listModal > div{ 
        
         } */
+@media(max-width:992px){
+    .mediaModal{
+        width: 100% !important;
+        word-wrap:break-word !important;
+    }
+    .NestedFunctionView{
+        display: flex;
+        flex-direction: column;
+    }
+    .NestedFunctionViewActive{
+        display: flex;
+        flex-direction: row;
+    }
+}

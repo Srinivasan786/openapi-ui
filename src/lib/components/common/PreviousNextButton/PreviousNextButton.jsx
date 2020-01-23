@@ -187,6 +187,17 @@ function PreviousNextButton(props) {
     }
   }
 
+  //To call callback function
+  function callViewFunction(e) {
+    if (e !== '') {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (props.checkView) {
+      props.checkView()
+    }
+   }
+
   return (
     <div className={className}>
       <Button.Group size="large">
@@ -198,6 +209,16 @@ function PreviousNextButton(props) {
         >
           <Icon type="left" className={s.iconView} />
         </Button>
+        {props.mobileView === true &&
+          <Button
+            type="primary"
+            disabled={nextPath ? false : true}
+            onClick={(e) => callViewFunction(e)}
+            className={s.previousButton}
+          >
+            <Icon type="unordered-list" className={s.iconView} />
+          </Button>
+        }
         <Button
           type="primary"
           disabled={nextPath ? false : true}

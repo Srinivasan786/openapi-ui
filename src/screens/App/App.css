@@ -80,7 +80,8 @@ $app-min-height: 100vh !default;
         transform: translateX(400px);
         padding: $app-body-padding;
         box-sizing: $app-body-box-sizing;
-        min-height: $app-min-height
+        min-height: $app-min-height;
+        overflow: hidden;
     }
 
     .bodyActive {
@@ -132,3 +133,26 @@ $app-min-height: 100vh !default;
   .cdk {
       min-height: 
   }
+  @media(max-width:550px){
+  .body{
+    width: 100% !important;
+    transform: none !important;
+    padding-bottom: 20px !important;
+  }
+
+}
+@media(min-width:551px) and (max-width:991px){
+    .body{
+        width: calc(100% - 310px) !important;
+        transform: translateX(305px) !important;
+        padding: 20px 15px 100px;
+        box-sizing: border-box;
+        min-height: 100vh;
+        padding-left: 25px !important;
+    }
+}
+@media(max-width:450px){
+.sidebar{
+    width: 100% !important;
+}
+}

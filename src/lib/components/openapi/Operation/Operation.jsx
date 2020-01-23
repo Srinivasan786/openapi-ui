@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
 import CommonMark from 'lib/components/common/CommonMark';
 import Heading from 'lib/components/common/Heading';
@@ -10,13 +10,17 @@ import ScrollToTop from 'lib/components/common/ScrollToTop';
 import ExternalDocumentation from 'lib/components/openapi/ExternalDocumentation';
 import s from './Operation.css';
 import PropTypes from 'prop-types';
-import { Menu, Dropdown, Button, Icon } from 'antd';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import 'antd/dist/antd.css';
 
 const pRef = []
 const sRef = []
 const rRef = []
 const resRef = []
+const options = [
+  'Request', 'Security', 'Request Body', 'Response'
+]
 
 function Operation(props) {
   const className = classnames(s.operation, props.className);
@@ -26,15 +30,18 @@ function Operation(props) {
   const [sRef, setSRef] = useState([]);
   const [rRef, setRRef] = useState([]);
   const [resRef, setResRef] = useState([]);
+  const [dropdownOptions, setDropdownOptions] = useState(options);
+  const [dropdownValue, setDropdownValue] = useState({value: 'Jump To', label: 'Jump To'});
 
   function handleMenuClick(e, index) {
-    if (e.key === '1') {
+    setDropdownValue({value: 'Jump To', label: 'Jump To'});
+    if (e.value === 'Request') {
       window.scrollTo(0, pRef[index].offsetTop);
-    } else if (e.key === '2') {
+    } else if (e.value === 'Security') {
       window.scrollTo(0, sRef[index].offsetTop);
-    } else if (e.key === '3') {
+    } else if (e.value === 'Request Body') {
       window.scrollTo(0, rRef[index].offsetTop);
-    } else if (e.key === '4') {
+    } else if (e.value === 'Response') {
       window.scrollTo(0, resRef[index].offsetTop);
     }
   }
@@ -62,30 +69,27 @@ function Operation(props) {
     requestBody = [requestBody];
   }
 
-  const menu = (
-    <Menu onClick={(e) => handleMenuClick(e, props.index)}>
-      {props.parameters &&
-        <Menu.Item key="1">
-          Request
-        </Menu.Item>
+  useEffect(() => {
+    if (props) {
+      let data = []
+      if (props.parameters) {
+        data.push('Request')
       }
-      {props.security &&
-        <Menu.Item key="2">
-          Security
-        </Menu.Item>
+      if (props.security) {
+        data.push('Security')
       }
-      {props.requestBody &&
-        <Menu.Item key="3">
-          Request Body
-        </Menu.Item>
+      if (props.requestBody) {
+        data.push('Request Body')
       }
-      {props.responses &&
-        <Menu.Item key="4">
-          Response
-        </Menu.Item>
+      if (props.responses) {
+        data.push('Response')
       }
-    </Menu>
-  );
+      setDropdownOptions(data)
+    }
+
+  },[props])
+
+
 
   return (
     <section
@@ -104,8 +108,8 @@ function Operation(props) {
         </header>
 
         <CommonMark>{props.description}</CommonMark>
-        <div className={s.buttonContainar}>
-          <div className={s.pathView}>
+        <div className={classnames(s.buttonContainar, 'row')}>
+          <div className={classnames(s.pathView, 'col-lg-6 col-md-4 col-sm-4')}>
             <header>
 
               <Heading
@@ -118,11 +122,12 @@ function Operation(props) {
               {/* <span className={s.summary}>{props.summary}</span> */}
             </header>
           </div>
-          <Dropdown overlay={menu} className={s.jumpButton}>
-            <Button style={{ display: 'flex', justifyContent: 'space-between', maxHeight: '40px' }} >
-              <span className={s.jumpText}>Jump To </span> <Icon type="down" />
-            </Button>
-          </Dropdown>
+          <Dropdown 
+          className={s.jumpButton}
+          options={dropdownOptions} 
+          onChange={(e) => handleMenuClick(e, props.index)}
+          value={dropdownValue}
+          placeholder="Jump To" />
         </div>
       </div>
       {
