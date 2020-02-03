@@ -4,7 +4,7 @@ import CommonMark from 'lib/components/common/CommonMark';
 import List from 'lib/components/common/List';
 import LabelValueListItem from 'lib/components/common/LabelValueListItem';
 import s from './ResponseItem.css';
-import { Button } from 'antd';
+import { Button, Tooltip } from 'antd';
 
 
 const defaultStyles = {
@@ -62,21 +62,29 @@ function ResponseItem(props) {
   }
 
   let type = ''
-  if (props && props.schema) {
-    type = props.schema.type
+  let dataType = ''
+  if (props && props.responsesData && props.responsesData.type !== undefined) {
+    type = props.responsesData.type.charAt(0).toUpperCase(0)
+    dataType = props.responsesData.type
   } else {
-    type = props.type
+    type = "O"
+    dataType = 'object'
   }
 
   return (
     <div className={className}>
       <div className={s.listOuter}>
         <List className={s.listConstant}>
-          {props.responsesData.type ?
+          {props.responsesData.description ?
             <div className={s.linkView}>
+              <Tooltip placement="bottom" title={dataType}>
+              <div className={s.typeStyle}>{type + ' '}
+              </div>
+              </Tooltip>
               <a className={s.textView}
                 onClick={() => onClickText(props)}>
-                <span>{props.name + '(optional):' + ' ' + props.responsesData.type}</span>
+                {/* <span>{props.name + '(optional):' + ' ' + props.responsesData.type}</span> */}
+                <span>{props.name}</span>
               </a>
               <div>
                 {props.responsesData.type === 'array' &&
@@ -85,18 +93,21 @@ function ResponseItem(props) {
               </div>
             </div>
             :
-            <div>
-              {props.name + '(optional)' + ':' + ' ' + 'object'}
+            <div className={s.linkView}>
+              <Tooltip placement="bottom" title={dataType}>
+              <div className={s.typeStyle}>{type + ' '}</div>
+              </Tooltip>
+              <div className={s.nameStyle}>{props.name}</div>
               <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
             </div>
           }
           {view === `${props.name}` &&
             <div>
               <div className={s.textStyle}>
-                Name: <span className={s.textStyleSmall}>{props.name}</span>
+                {/* <div className={s.textStyleSmall}>{props.name}</div> */}
               </div>
               <div className={s.textStyle}>
-                {props.description}
+                {props.responsesData.description}
               </div>
               {props.explode &&
                 <div className={s.textStyle}>

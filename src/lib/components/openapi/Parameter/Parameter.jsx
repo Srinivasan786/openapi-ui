@@ -4,7 +4,8 @@ import CommonMark from 'lib/components/common/CommonMark';
 import List from 'lib/components/common/List';
 import LabelValueListItem from 'lib/components/common/LabelValueListItem';
 import s from './Parameter.css';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
+import { Tooltip } from 'antd';
 
 
 const defaultStyles = {
@@ -55,24 +56,33 @@ function Parameter(props) {
   }
 
   let type = ''
-  if (props && props.schema) {
-    type = props.schema.type
+  let dataType = ''
+  if (props && props.schema && props.schema.type) {
+    type = props.schema.type.charAt(0).toUpperCase(0)
+    dataType = props.schema.type
   } else {
     type = props.type
+    dataType = props.type
   }
 
   return (
     <div className={className}>
       <List className={s.listItem}>
+        <div className={s.typeSpace}>
+        <Tooltip placement="bottom" title={dataType}>
+      <div className={s.typeStyle}>{type + ' ' }</div>
+      </Tooltip>
+       {props.description ?
         <a className={s.textView}
           onClick={() => onClickButton(props)}>
-          <span className={s.titleName}>{props.name + '(optional):' + ' ' + type}</span>
+          <span className={s.titleName}>{props.name}</span>          
         </a>
+        :
+        <span className={s.titleName}>{props.name}</span>  
+        }
+        </div>
         {view === `${props.name} ${props.in}` &&
           <div>
-            <div className={s.textStyle}>
-              Name: <span className={s.textStyleSmall}>{props.name}</span>
-            </div>
             <div className={s.textStyle}>
               {props.description}
             </div>

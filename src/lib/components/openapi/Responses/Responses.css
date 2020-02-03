@@ -8,6 +8,7 @@
     margin-top: 10px;
     background: #ffffff;
 }
+
 .NestedFunctionView{
     display: flex;
     flex-direction: row;
@@ -154,4 +155,32 @@
         display: flex;
         flex-direction: row;
     }
+}
+.successResponse {
+    color: green;
+    display: flex;
+    justify-content: center;
+
+}
+.normalResponse {
+    color: orange;
+    display: flex;
+    justify-content: center;
+
+}
+.badResponse {
+    color: red;
+    display: flex;
+    justify-content: center;
+}
+.cardContainer{
+    border-left: 2px solid #dedad6 !important;
+    border-right: 2px solid #dedad6 !important;
+    border-bottom: 2px solid #dedad6 !important;
+    border-top: 2px solid #dedad6 !important;
+}
+.responseTypeView {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
