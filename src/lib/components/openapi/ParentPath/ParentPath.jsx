@@ -21,6 +21,8 @@ function ParentPath(props) {
   const [totalTagArray, setTotalsubTagArray] = useState([]);
   const [parentTagCheck, setParentTagCheck] = useState(true);
   const [parentTag, setParentTag] = useState({});
+  const [indexPath, setIndexPath] = useState([]);
+  const [jumpToData, setJumpToData] = useState({});
 
   //set tag value and sub tag value
   useEffect(() => {
@@ -62,21 +64,21 @@ function ParentPath(props) {
 
             //To get without childnode data
             if (subTagValue && subTagValue.length > 0) {
-            subTagValue.map((res, keys) => {
-              let replacedTagSub = res.tag.replace(/%2B/g, '/');
-              let replacedTagTempSub = replacedTagSub.replace(/%20/g, ' ');
-              let tagArrayTempSub = replacedTagTempSub.split('/');
-              if (compareTwoTags(pathTag, tagArrayTempSub)) {
-                let tagValue = {
-                  method: pathData,
-                  path: path
+              subTagValue.map((res, keys) => {
+                let replacedTagSub = res.tag.replace(/%2B/g, '/');
+                let replacedTagTempSub = replacedTagSub.replace(/%20/g, ' ');
+                let tagArrayTempSub = replacedTagTempSub.split('/');
+                if (compareTwoTags(pathTag, tagArrayTempSub)) {
+                  let tagValue = {
+                    method: pathData,
+                    path: path
+                  }
+                  let subTagsTempArray = res.methodArray ? res.methodArray : [];
+                  subTagsTempArray.push(tagValue);
+                  res.methodArray = subTagsTempArray;
                 }
-                let subTagsTempArray = res.methodArray ? res.methodArray : [];
-                subTagsTempArray.push(tagValue);
-                res.methodArray = subTagsTempArray;
-              }
-            });
-          }
+              });
+            }
           }
         });
       });
@@ -108,12 +110,12 @@ function ParentPath(props) {
 
             let count = 0;
             if (pathValue && pathValue.length > 0) {
-            pathValue.map((res, keyValues) => {
-              if (res !== path) {
-                count = count + 1
-              }
-            });
-          }
+              pathValue.map((res, keyValues) => {
+                if (res !== path) {
+                  count = count + 1
+                }
+              });
+            }
             if (count === pathValue.length) {
               let tagValue = {
                 method: pathData,
@@ -140,12 +142,12 @@ function ParentPath(props) {
   function compareTwoTags(pathTag, tagArray) {
     let count = 0;
     if (tagArray && tagArray.length > 0) {
-    tagArray.map((res, index) => {
-      if (_.includes(pathTag, res)) {
-        count = count + 1;
-      }
-    });
-  }
+      tagArray.map((res, index) => {
+        if (_.includes(pathTag, res)) {
+          count = count + 1;
+        }
+      });
+    }
     if (count === tagArray.length) {
       return true;
     } else {
@@ -161,12 +163,15 @@ function ParentPath(props) {
           <div key={index} className={s.listView}  >
             <a className={s.textView}
               onClick={(e) => onClickButton(e, res)}>
-              <span>{res.key}</span>
+              <span>{res.key === props.tagTitle && parentTagCheck === true ? 'API List' : res.key}</span>
             </a>
             {res.key === props.tagTitle && parentTagCheck === true ?
               <div>
+                {indexPath && indexPath.length > 0 &&
+                  renderIndex()
+                }
                 {res.path &&
-                  <Paths paths={res.path} />
+                  <Paths paths={res.path} type='ParentTag' jumpToValue={jumpToData} />
                 }
               </div>
               :
@@ -187,6 +192,34 @@ function ParentPath(props) {
     }
   }
 
+  //Display the index
+  function renderIndex() {
+    if (indexPath && indexPath.length > 0) {
+      return (
+        indexPath.map((res, index) =>
+          <div key={index} className={s.indexView}>
+            <div className={s.dot}>
+              .
+        </div>
+            <div className={s.normalTextView}
+              onClick={() => jumpToFunction(res)}>
+              {res.pathValue}
+            </div>
+          </div>
+        )
+      )
+    } else {
+      return null;
+    }
+  }
+
+  //To call the jumpToCallback
+  function jumpToFunction(pathData) {
+    if (pathData) {
+      setJumpToData(pathData);
+    }
+  }
+
   function renderMethod(data) {
     if (data && data.length > 0) {
       return (
@@ -194,6 +227,8 @@ function ParentPath(props) {
           <div key={index}>
             <ParentPathItem
               methodData={res}
+              jumpToValue={jumpToData}
+              index={index}
             />
           </div>
         )
@@ -216,9 +251,85 @@ function ParentPath(props) {
     }
   }
 
+  const methods = [
+    { key: 'get', value: 'Get' },
+    { key: 'post', value: 'Create' },
+    { key: 'patch', value: 'Update' },
+    { key: 'delete', value: 'Delete' },
+    { key: 'put', value: 'Update' }
+  ]
+
+  useEffect(() => {
+    if (parentTag && parentTag.length > 0 && tagArray && tagArray.length > 0) {
+      let data = [];
+      //ParenTag
+      parentTag.map((path, key) => {
+        path.methodArray.map((pathDetails, index) => {
+          const methodType = _.filter(methods, function (o) { if (pathDetails.method === o.key) { return o.value; } });
+          const types = getSubType(pathDetails.path);
+          let method = '';
+          if (index === 0) {
+            method = methodType[0].value + ' all ' + path.key
+          } else {
+            method = methodType[0].value + ' ' + path.key + ' by ' + types
+          }
+          let methodDetails = {
+            path: pathDetails.path,
+            method: pathDetails.method,
+            pathValue: method,
+            tagValue: 'ParentTag'
+          }
+          data.push(methodDetails)
+        })
+      })
+      //TagArray
+      tagArray.map((path, key) => {
+        if (path.methodArray && path.methodArray.length > 0) {
+          path.methodArray.map((pathDetails, index) => {
+            const methodType = _.filter(methods, function (o) { if (pathDetails.method === o.key) { return o.value; } });
+            const types = getSubType(pathDetails.path);
+            const method = methodType[0].value + ' ' + path.key + ' by ' + types
+            let methodDetails = {
+              path: pathDetails.path,
+              method: pathDetails.method,
+              pathValue: method
+            }
+            data.push(methodDetails)
+          })
+        }
+      })
+      setIndexPath(_.uniq(data))
+    }
+  }, [parentTag, tagArray]);
+
+  function getSubType(pathType) {
+    const pathValue = pathType.split('/');
+    let pathDataTypes = [];
+    let dataType = ''
+    pathValue.map((data, key) => {
+      if (_.startsWith(data, '{')) {
+        pathDataTypes.push(_.trim(data, '{}'))
+      }
+    });
+    if (pathDataTypes.length > 0) {
+      pathDataTypes.map((data, key) => {
+        if (key === pathDataTypes.length - 1 && pathDataTypes.length !== 1) {
+          dataType = _.trimEnd(dataType, ', ');
+          dataType = dataType + ' and ' + data;
+        } else if (pathDataTypes.length > 2) {
+          dataType = dataType + data + ', ';
+        } else {
+          dataType = dataType + data;
+        }
+      })
+    }
+    return dataType
+  }
+
+
   return (
     <div className={className}>
-      <Info {...props.info} />
+      {/* <Info {...props.info} /> */}
       <div className={s.pathContent}>
         <Heading
           className={s.pathTitle}

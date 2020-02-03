@@ -15,8 +15,8 @@ function OpenAPI(props) {
   return (
     <div className={className}>
       {/* <Info {...props.info} /> */}
-      {props.externalDocs && !_.isEmpty(props.externalDocs) ? <ExternalDocumentation {...props.externalDocs} /> : null}
-      <Security securityRequirements={props.security} />
+      {/* {props.externalDocs && !_.isEmpty(props.externalDocs) ? <ExternalDocumentation {...props.externalDocs} /> : null}
+      <Security securityRequirements={props.security} /> */}
       <Paths paths={props.paths} tagTitle={props.tagTitle}/>
     </div>
   );

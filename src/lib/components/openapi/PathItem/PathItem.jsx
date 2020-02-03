@@ -30,24 +30,25 @@ function PathItem(props) {
         </Heading> */}
         <span className={s.summary}>{props.summary}</span>
       </header>
-      <CommonMark>{ props.description }</CommonMark>
+      <CommonMark>{props.description}</CommonMark>
       {
         operationMethods
-        .filter(method => props[method])
-        .map((method) => {
-          let operation = props[method];
-          let parameters = mergeParameters(props.parameters, operation.parameters);
-          return (
-            <Operation
-              {...operation}
-              key={method}
-              index={props.index}
-              parameters={parameters}
-              method={method}
-              path={props.path}
-            />
-          );
-        })
+          .filter(method => props[method])
+          .map((method) => {
+            let operation = props[method];
+            let parameters = mergeParameters(props.parameters, operation.parameters);
+            return (
+              <Operation
+                {...operation}
+                key={method}
+                index={props.index}
+                parameters={parameters}
+                method={method}
+                path={props.path}
+                jumpToValue={props.jumpToValue}
+              />
+            );
+          })
       }
     </section>
   );

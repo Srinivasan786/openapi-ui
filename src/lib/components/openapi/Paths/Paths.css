@@ -3,3 +3,34 @@
     margin-bottom: 0px !important;
     /* margin-top: 0px !important; */
 }
+.normalTextView {
+    outline: none !important;
+    font-family: 'Oracle Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    font-style: normal !important;
+    font-stretch: normal !important;
+    line-height: 1.88 !important;
+    letter-spacing: normal !important;
+    text-align: left !important;
+  }
+  .normalTextView:hover {
+    text-decoration: underline !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+  }
+  .indexView {
+    flex-direction: row;
+    display: flex;
+  }
+  .dot {
+    font-weight: bold !important;
+    font-size: 16px !important;
+    padding-right: 10px;
+  }
+  .apiListText {
+    font-size: 20px;
+    font-weight: bold;
+    color: #bb501c;
+  }

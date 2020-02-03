@@ -30,11 +30,21 @@ function Operation(props) {
   const [sRef, setSRef] = useState([]);
   const [rRef, setRRef] = useState([]);
   const [resRef, setResRef] = useState([]);
+  const [pathRef, setPathRef] = useState([]);
   const [dropdownOptions, setDropdownOptions] = useState(options);
-  const [dropdownValue, setDropdownValue] = useState({value: 'Jump To', label: 'Jump To'});
+  const [dropdownValue, setDropdownValue] = useState({ value: 'Jump To', label: 'Jump To' });
+
+  useEffect(() => {
+    if (props.jumpToValue) {
+      if (props.path === props.jumpToValue.path) {
+        window.scrollTo(0, pathRef[props.index].offsetTop);
+      }
+    }
+
+  }, [props.jumpToValue])
 
   function handleMenuClick(e, index) {
-    setDropdownValue({value: 'Jump To', label: 'Jump To'});
+    setDropdownValue({ value: 'Jump To', label: 'Jump To' });
     if (e.value === 'Request') {
       window.scrollTo(0, pRef[index].offsetTop);
     } else if (e.value === 'Security') {
@@ -87,7 +97,7 @@ function Operation(props) {
       setDropdownOptions(data)
     }
 
-  },[props])
+  }, [props])
 
 
 
@@ -96,7 +106,8 @@ function Operation(props) {
       id={props.operationId}
       className={className}
     >
-      <div className={s.fullContainar}>
+      <div className={s.fullContainar}
+        ref={refElem => setRefValues(refElem, pathRef, setPathRef)}>
         <header className={headerClassName}>
           <Heading
             className={s.heading}
@@ -122,12 +133,12 @@ function Operation(props) {
               {/* <span className={s.summary}>{props.summary}</span> */}
             </header>
           </div>
-          <Dropdown 
-          className={s.jumpButton}
-          options={dropdownOptions} 
-          onChange={(e) => handleMenuClick(e, props.index)}
-          value={dropdownValue}
-          placeholder="Jump To" />
+          <Dropdown
+            className={s.jumpButton}
+            options={dropdownOptions}
+            onChange={(e) => handleMenuClick(e, props.index)}
+            value={dropdownValue}
+            placeholder="Jump To" />
         </div>
       </div>
       {

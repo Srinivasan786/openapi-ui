@@ -6,6 +6,8 @@
     display: flex;
     justify-content: space-evenly;
     float: right;
+    position: relative;
+    bottom: 52px;
     
     .expandAndCollapseView {
         display: flex;

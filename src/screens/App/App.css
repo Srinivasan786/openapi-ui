@@ -79,6 +79,7 @@ $app-min-height: 100vh !default;
         width: calc(100% - $app-sidebar-width);
         transform: translateX(400px);
         padding: $app-body-padding;
+        padding: 50px 15px 100px !important;
         box-sizing: $app-body-box-sizing;
         min-height: $app-min-height;
         overflow: hidden;
