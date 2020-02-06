@@ -65,12 +65,22 @@ function Parameter(props) {
     dataType = props.type
   }
 
+  let modelType = ''
+  if (props && props.type){
+    modelType = props.type.charAt(0).toUpperCase(0) 
+  }
+
   return (
     <div className={className}>
       <List className={s.listItem}>
         <div className={s.typeSpace}>
         <Tooltip placement="bottom" title={dataType}>
+          {props && props.schema && props.schema.type &&
       <div className={s.typeStyle}>{type + ' ' }</div>
+          }
+          {props && props.type &&
+           <div className={s.typeStyle}>{modelType + ' ' }</div>
+          }
       </Tooltip>
        {props.description ?
         <a className={s.textView}
@@ -81,7 +91,7 @@ function Parameter(props) {
         <span className={s.titleName}>{props.name}</span>  
         }
         </div>
-        {view === `${props.name} ${props.in}` &&
+        {view !== `${props.name} ${props.in}` &&
           <div>
             <div className={s.textStyle}>
               {props.description}

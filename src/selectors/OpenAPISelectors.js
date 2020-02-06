@@ -15,6 +15,7 @@ export const getServers = createSelector(getSpec, spec => spec.get('servers'));
 
 export const getPaths = createSelector(getSpec, spec => spec.get('paths'));
 
+export const getComponents = createSelector(getSpec, spec => spec.get('components'));
 
 export const getSecurity = createSelector(getSpec, spec => spec.get('security'));
 
@@ -34,5 +35,6 @@ export default {
     getSecurity,
     getTags,
     getExternalDocs,
-    getSidebar
+    getSidebar,
+    getComponents
 };

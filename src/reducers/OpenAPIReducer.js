@@ -12,6 +12,7 @@ const initialState = Immutable.fromJS({
         },
         servers: [],
         paths: {},
+        components: {},
         security: [],
         tags: [],
         externalDocs: {}

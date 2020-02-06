@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classnames from 'classnames';
-import { Tabs } from 'antd';
+import { Tabs, Select } from 'antd';
 import Heading from 'lib/components/common/Heading';
 import ResponseItem from 'lib/components/openapi/ResponseItem';
 import s from './Responses.css';
@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import List from 'lib/components/common/List';
 
 const { TabPane } = Tabs;
+
+const { Option } = Select;
 
 function Responses(props) {
   const className = classnames(s.Responses, props.className);
@@ -21,6 +23,9 @@ function Responses(props) {
   const [resRef, setResRef] = useState([]);
   const [tabsContent, setTabsContent] = useState([]);
   const [content, setContent] = useState({});
+  const [responseArr, setresponseArr] = useState([]);
+  const [mediaArray, setmediaArray] = useState([]);
+  const [dropDownValue, setDropDownValue] = useState('');
 
   let successResponse = '200';
   let noContentResponse = '204';
@@ -41,6 +46,12 @@ function Responses(props) {
     }
   }, [props]);
 
+  useEffect(() => {
+    if (mediaArray && mediaArray.length > 0) {
+      setDropDownValue(mediaArray[0].value);
+    }   
+  }, [mediaArray]);
+
   //To set the response value
   function resValueSet(index) {
     Object.keys(props.responses).map((resData, key) => {
@@ -56,12 +67,14 @@ function Responses(props) {
   //Set response/request body values
   function responsesDetails(resData) {
     let content = {};
+    let description = '';
     if (props &&
       resData &&
       props.responses &&
       props.responses[resData] &&
       props.responses[resData].content) {
       content = props.responses[resData].content;
+      description = props.responses[resData].description
     } else if (props &&
       props.requestBodies &&
       props.requestBodies.content) {
@@ -70,6 +83,10 @@ function Responses(props) {
     if (Object.keys(content).length > 0) {
       let tempResponse = {};
       let tempMediaType = [];
+      let tempArr = {};
+      let emptyArr = [];
+      let mediaObj = {};
+      let mediaArr = [];
       Object.keys(content).map((path, index) => {
         let mediaTypeData = path.split(';');
         let value = content[path];
@@ -78,8 +95,22 @@ function Responses(props) {
           value.schema.properties
         ) {
           tempResponse = value.schema.properties;
+          tempResponse.description = description
         }
-        tempMediaType.push(mediaTypeData[0]);
+        mediaObj = {
+          value: mediaTypeData[0],
+          label: index
+        }
+        mediaArr.push(mediaObj)
+        setmediaArray(mediaArr)
+        tempMediaType.push(mediaArr)
+        // tempMediaType.push(mediaTypeData[0]);
+        tempArr = {
+          mediaType: mediaTypeData[0],
+          response: tempResponse,
+        }
+        emptyArr.push(tempArr);
+        setresponseArr(emptyArr);
       });
       setResponses(tempResponse);
       let tempNestedResponses = [];
@@ -89,7 +120,7 @@ function Responses(props) {
       }
       tempNestedResponses.push(responseDetails);
       setNestedResponses(tempNestedResponses);
-      setMediaType(tempMediaType);
+      // setMediaType(tempMediaType);
     }
   }
 
@@ -198,15 +229,15 @@ function Responses(props) {
   }
 
 
-  // Onclick tab(
-  function changeTab(key) {
+  // Onclick tab
+  function  changeTab(key) {
     resValueSet(key);
   };
   const create = (responsesData) =>
     <ResponseItem responsesData={responses[responsesData]}
       name={responsesData} nestedFunction={nestedFunction} key={`${responsesData} ${props.index}`} index={props.index} />;
 
-  const mediaTypeCreate = (responsesData, index) => <div className={s.listOuter} key={index}>{responsesData}</div>;
+  const mediaTypeCreate = (responsesData, index) => <div className={s.listOuter} key={index}>{responsesData.value}</div>;
 
   let responsesRef = null;
   const nestedLink = (responsesValue, index) =>
@@ -227,6 +258,12 @@ function Responses(props) {
       }
     </div>;
 
+function handleChange(value) {
+  let responseValue = responseArr[value]
+  setResponses(responseValue.response)
+}
+
+const options = mediaArray.map(d => <Option key={d.label}>{d.value}</Option>);
   //Response dta view
   function responseView() {
     return (
@@ -234,23 +271,32 @@ function Responses(props) {
         {responsesContent !== '204' && responses && Object.keys(responses).length > 0 ?
           <div className={s.responseTypeView}>
 
+            {responses.description &&
+              <Heading level="h1" className={s.responseDesc}>{responses.description}</Heading>
+            }
+
             <Heading level="h5" className={s.responseDesc}>Supported Media Types</Heading>
 
             {/* Show mediaType */}
-            <div className={s.mediaModal}>
+            {/* <div className={s.mediaModal}>
               {mediaType && mediaType.map(mediaTypeCreate)}
-            </div>
+            </div> */}
 
-            <Heading level="h3" className={s.defaultHeader}>Default Response</Heading>
-            <Heading level="h5" className={s.defaultdesc}>The following table describes the default response for this task.</Heading>
+            <div className={s.mediaModal}>
+            {dropDownValue && mediaArray.length === 1 ? 
+            mediaArray && mediaArray.map(mediaTypeCreate)
+              :
+              <Select value={dropDownValue} className={s.selectType} onChange={handleChange}>
+              {options}
+          </Select>
+              }
+          </div>
 
-            {nestedResponses && nestedResponses.length > 0 &&
+            {/* {nestedResponses && nestedResponses.length > 0 &&
               <div className={nestedResponses.length > 1 ? s.NestedFunctionView : s.NestedFunctionViewActive}>
                 <Heading level="h3" className={s.responseDesc}>Body(</Heading> {nestedResponses && nestedResponses.map(nestedLink)} <Heading level="h3" className={s.responseDesc}>)</Heading>
               </div>
-            }
-            <div className={s.responseType}>Type: {' '}<span className={s.textStyleSmall}>{responsesType}</span></div>
-
+            } */}
             {/* Show the responsedetails */}
             <div>
               {responses.value && responses.value === 'No Data' ?

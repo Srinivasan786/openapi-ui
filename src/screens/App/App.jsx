@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Spin } from 'antd';
+import { Spin, Tabs } from 'antd';
 import _ from 'lodash';
 import store from 'store';
 import OpenAPIActions from 'actions/OpenAPIActions';
@@ -8,12 +8,15 @@ import OpenAPI from 'lib/components/openapi/OpenAPI';
 import ParentPath from 'lib/components/openapi/ParentPath';
 import SidebarIcons from 'lib/components/common/SidebarIcons';
 import Sidebar from 'lib/components/common/Sidebar';
+import ModelSidebar from 'lib/components/common/ModelSidebar';
 import ScrollToTop from 'lib/components/common/ScrollToTop';
 import PreviousNextButton from 'lib/components/common/PreviousNextButton';
 import OpenAPISelectors from 'selectors/OpenAPISelectors';
 import PropTypes from 'prop-types'
 import s from './App.css';
+import Parameters from '../../lib/components/openapi/Parameters/Parameters';
 
+const { TabPane } = Tabs;
 
 
 
@@ -32,6 +35,11 @@ function App(props) {
   const [mobileWidthView, setMobileWidthView] = useState(false);
   const [currentTagIdSidebar, setCurrentTagIdSidebar] = useState('');
   const [currentTagIdPrevNext, setCurrentTagIdPrevNext] = useState('');
+  const [tabs, setTabs] = useState('');
+  const [components, setComponents] = useState([]);
+  const [modelComponents, setModelComponents] = useState([]);
+  const [tabKey, setTabKey] = useState('1');
+  const [orderComponents, setOrderComponents] = useState([]);
 
 
   useEffect(() => {
@@ -113,6 +121,7 @@ function App(props) {
         }
       });
     }
+
     setTagArray(tempArray);
     setSubCategory(subCategory);
   }, [consolidateTagArray]);
@@ -202,6 +211,73 @@ function App(props) {
     }
   }
 
+  // Onclick tab
+  function onModelschange(key) {
+    components.map(option => {
+      if(key === option.title){
+        let modelTab = {
+          title: option.title,
+          components: option.components
+        }
+        let tempArr = []
+        tempArr.push(modelTab)
+        setModelComponents(tempArr)
+      }
+    })
+  };
+
+  useEffect(() => {
+    if(components){
+      setModelComponents(components[0])
+  } 
+  }, [components[0]]);
+
+  //Display the Interfaces view
+  function interfacesView() {
+    return (
+      <Sidebar onSideBarChange={onSidebarChange}
+        currentIdSideBar={currentIdSideBar}
+        currentTagIdPrevNext={currentTagIdPrevNext}
+        checkView={checkView}
+        mobileView={mobileView}
+      />
+    )
+  }
+
+  useEffect(() => {
+    if (props &&
+      props.components &&
+      props.components.schemas) {
+        let components = props.components.schemas;
+        let componentsData = [];
+        let orderData = [];
+        Object.keys(components).map((res, key) => {
+          let componentData = {
+            title: res,
+            components: components[res]
+          }
+          componentsData.push(componentData);
+          orderData.push(res);
+
+        })
+        setComponents(_.sortBy(componentsData, ['title', 'components']))
+        setOrderComponents(orderData.sort())
+      }
+
+  },[props.components]);
+
+    //Display the Models view
+    function modelsView() {
+      return (
+        <ModelSidebar onModelschange={onModelschange}
+        />
+      )
+    }
+
+    function tabChange(value) {
+      setTabKey(value)
+    }
+
 
   return (
     <div className={s.app}>
@@ -217,15 +293,17 @@ function App(props) {
       }
       {sidebarHide === true && (mobileView === false || mobileWidthView === false) &&
         <div className={s.sidebar}>
-          <Sidebar onSideBarChange={onSidebarChange}
-            currentIdSideBar={currentIdSideBar}
-            currentTagIdPrevNext={currentTagIdPrevNext}
-            checkView={checkView}
-            mobileView={mobileView}
-          />
+        <Tabs onChange={(e)=>tabChange(e)} type="card">
+          <TabPane tab="Interfaces" key="1">
+            {interfacesView()}
+          </TabPane>
+          <TabPane tab="Models" key="2">
+            {modelsView()}
+          </TabPane>
+        </Tabs>
         </div>
       }
-      {(mobileView === false || mobileWidthView === true) &&
+      {(mobileView === false || mobileWidthView === true) && tabKey === '1' &&
         <div className={sidebarHide === true ? s.body : s.bodyActive}>
           {isLoading === true ?
             <div className={s.loader}>
@@ -279,6 +357,27 @@ function App(props) {
           }
         </div>
       }
+      {tabKey === '2' &&
+      <div>
+     {(mobileView === false || mobileWidthView === true) && 
+        <div className={sidebarHide === true ? s.body : s.bodyActive}>
+          {isLoading === true ?
+            <div className={s.loader}>
+              <Spin tip="Loading..." size="large" />
+            </div>
+            :
+            <div>
+              {Object.keys(paths).length === 0 ? <h2> Click on sidebar to load section documentation </h2> :
+                <div>
+                  <Parameters model={modelComponents}></Parameters>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+        </div>
+      }
     </div>
   );
 
@@ -291,7 +390,8 @@ App.propTypes = {
   paths: PropTypes.object.isRequired,
   security: PropTypes.array,
   externalDocs: PropTypes.object,
-  sidebar: PropTypes.object
+  sidebar: PropTypes.object,
+  components: PropTypes.object,
 };
 
 
@@ -304,6 +404,7 @@ const mapStateToProps = (state) => {
     security: OpenAPISelectors.getSecurity(state).toJS(),
     externalDocs: OpenAPISelectors.getExternalDocs(state).toJS(),
     sidebar: OpenAPISelectors.getSidebar(state).toJS(),
+    components: OpenAPISelectors.getComponents(state).toJS(),
   };
 };
 

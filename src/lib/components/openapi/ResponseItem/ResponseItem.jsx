@@ -101,7 +101,7 @@ function ResponseItem(props) {
               <Button id={s.buttonStyle} onClick={() => onClickButton(props)}>{props.name}</Button>
             </div>
           }
-          {view === `${props.name}` &&
+          {view !== `${props.name}` &&
             <div>
               <div className={s.textStyle}>
                 {/* <div className={s.textStyleSmall}>{props.name}</div> */}
